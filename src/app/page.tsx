@@ -1,95 +1,64 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { useState } from "react";
+
+const SG_RATE = 0.11; //11% for 2023/24, increasing to 11.5% next fin year.
+const CONTRIBUTIONS_TAX_RATE = 0.15;
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Let's go`&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" Test github init  "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+  const [statedIncome, setStatedIncome] = useState(0);
+  const [salSacPerMonth, setSalSacPerMonth] = useState(0);
+  const [includesSuper, setIncludesSuper] = useState(false);
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+  const superAdjustedIncome = includesSuper
+    ? statedIncome
+    : statedIncome * (1 + SG_RATE);
+  const superNetSG = superAdjustedIncome * SG_RATE;
+  const superTaxOnSG = superNetSG * CONTRIBUTIONS_TAX_RATE;
+
+  const superTaxOnSalSac = salSacPerMonth * CONTRIBUTIONS_TAX_RATE;
+
+  // const totalTax = superTaxOnSG + superTaxOnSalSac
+
+  return (
+    // <div className={styles.main}>
+    <div>
+      <h1>Salary Sacrifice</h1>
+
+      <div>some stuff</div>
+
+      <div>
+        <label htmlFor="income">annual income</label>
+        <input
+          type="number"
+          title="income"
+          value={statedIncome}
+          onChange={(event) => setStatedIncome(parseInt(event.target.value))}
+        />
+
+        <label htmlFor="salsac">salary sacrifice</label>
+
+        <input
+          type="number"
+          title="salsac"
+          value={salSacPerMonth}
+          onChange={(event) => setSalSacPerMonth(parseInt(event.target.value))}
+        />
+
+        <label htmlFor="incSuper">income includes Super?</label>
+        <input
+          type="checkbox"
+          title="incSuper"
+          checked={includesSuper}
+          onChange={() => setIncludesSuper((prev) => !prev)}
         />
       </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      <div>
+        <h2>Super</h2>
+        <div>SG: {superNetSG}</div>
+        <div>Tax: {superTaxOnSG}</div>
       </div>
-    </main>
+    </div>
   );
 }
