@@ -1,5 +1,6 @@
 "use client";
 
+import { Chart } from "@/components/Chart/Chart";
 import { useState } from "react";
 import styles from "./page.module.css";
 import { getTopShavingTaxNaive, mockShaving, taxBucket } from "./utilities";
@@ -56,6 +57,32 @@ export default function Home() {
     45
   );
 
+  // Chart data
+  // ML, SG, SSac, 1, 2, 3, 4, 5
+  const bucketIncomes = [
+    0,
+    superInAccount,
+    salSacInAccount,
+    taxBucket1.remIncome,
+    taxBucket2.remIncome,
+    taxBucket3.remIncome,
+    taxBucket4.remIncome,
+    taxBucket5.remIncome,
+  ];
+  const bucketTaxes = [
+    medicareLevy,
+    superTaxOnSG,
+    superTaxOnSalSac,
+    taxBucket1.taxPaid,
+    taxBucket2.taxPaid,
+    taxBucket3.taxPaid,
+    taxBucket4.taxPaid,
+    taxBucket5.taxPaid,
+  ];
+
+  const bucketIncomesWithoutSalSac = [];
+  const taxesWithoutSalSac = [];
+
   const totalTax =
     medicareLevy +
     superTaxOnSG +
@@ -65,17 +92,6 @@ export default function Home() {
     taxBucket3.taxPaid +
     taxBucket4.taxPaid +
     taxBucket5.taxPaid;
-
-  // const netSalCheck =
-  //   totalTax +
-  //   taxBucket1.remIncome +
-  //   taxBucket2.remIncome +
-  //   taxBucket3.remIncome +
-  //   taxBucket4.remIncome +
-  //   taxBucket5.remIncome;
-
-  // const b1 = (45000 - 18201) * 0.19;
-  // const b2 = (68000 - 45001) * 0.325;
 
   const ifSalSacWasIncomeAmount = getTopShavingTaxNaive(
     incomeAfterSGAndLevy,
@@ -87,6 +103,8 @@ export default function Home() {
   return (
     // <div className={styles.main}>
     <div>
+      <Chart bucketIncomes={bucketIncomes} bucketTaxes={bucketTaxes}></Chart>
+
       <h1>Salary Sacrifice</h1>
       {/* 
       <div>
