@@ -25,6 +25,8 @@ export default function RootLayout({
             <Link href="/fhss">FHSS</Link>
             <Link href="/expats">Expats</Link>
             <Link href="/voluntary">Voluntary Contributions</Link>
+            <Link href="/hecs">HECS</Link>
+            <Link href="/extraBenefits">Why super good</Link>
           </nav>
           {children}
         </main>
