@@ -99,7 +99,25 @@ function getTopTaxBracket(income: number) {
   return 0;
 }
 
-export const debounce = (callback: any, wait: number) => {
+//https://math.stackexchange.com/questions/1698578/compound-interest-formula-adding-annual-contributions
+// P - initial amount
+// i - annual interest rate
+// A - yearly contribution or deposit added
+// n - years
+// const result = principal * (1 + interestRate / 100) ** years;
+export function calcCompoundInterest(
+  P: number,
+  i: number,
+  n: number,
+  A: number
+): string {
+  // if (P === 0) P = 1; // free dollar congrats
+  i = i / 100;
+  const result = (P + A / i) * Math.pow(1 + i, n) - A / i;
+  return result.toFixed(2);
+}
+
+export function debounce(callback: any, wait: number) {
   let timeoutId: any = null;
 
   console.log("debounce");
@@ -109,93 +127,4 @@ export const debounce = (callback: any, wait: number) => {
       callback.apply(null, args);
     }, wait);
   };
-};
-
-// export function getTopShavingTax(
-//   income: number,
-//   shaving: number
-// ): IncomeTaxShave {
-//   //   if (income < 0) throw new Error("arg must be positive");
-//   //   if (shaving < 0) throw new Error("arg must be positive");
-
-//   let bracket = 0;
-//   let topRate = 0;
-//   let spaceInBracket = 0;
-//   let incomeAtTopRate = 0;
-//   let taxAtTopRate = 0;
-//   let lowerRate = 0;
-//   let incomeAtLowerRate = 0;
-//   let taxAtLowerRate = 0;
-
-//   if (income < 18201) {
-//     bracket = 1;
-//     topRate = 0;
-//     spaceInBracket = income - 0;
-
-//     if (shaving > spaceInBracket) {
-//       incomeAtTopRate = spaceInBracket;
-//       incomeAtLowerRate = shaving - spaceInBracket;
-//       taxAtTopRate = incomeAtTopRate * topRate;
-//       lowerRate = 0;
-//       taxAtLowerRate = incomeAtLowerRate * lowerRate;
-//     }
-//   } else if (income >= 18201 && income < 45001) {
-//     bracket = 2;
-//     topRate = 0.19;
-//     spaceInBracket = income - 18201;
-
-//     if (shaving > spaceInBracket) {
-//       incomeAtTopRate = spaceInBracket;
-//       incomeAtLowerRate = shaving - spaceInBracket;
-//       taxAtTopRate = incomeAtTopRate * topRate;
-//       lowerRate = 0;
-//       taxAtLowerRate = incomeAtLowerRate * lowerRate;
-//     }
-//   } else if (income >= 45001 && income < 120001) {
-//     bracket = 3;
-//     topRate = 0.325;
-//     spaceInBracket = income - 45001;
-
-//     if (shaving > spaceInBracket) {
-//       incomeAtTopRate = spaceInBracket;
-//       incomeAtLowerRate = shaving - spaceInBracket;
-//       taxAtTopRate = incomeAtTopRate * topRate;
-//       lowerRate = 0.19;
-//       taxAtLowerRate = incomeAtLowerRate * lowerRate;
-//     }
-//   } else if (income >= 120001 && income < 180001) {
-//     bracket = 4;
-//     topRate = 0.37;
-//     spaceInBracket = income - 120001;
-
-//     if (shaving > spaceInBracket) {
-//       incomeAtTopRate = spaceInBracket;
-//       incomeAtLowerRate = shaving - spaceInBracket;
-//       taxAtTopRate = incomeAtTopRate * topRate;
-//       lowerRate = 0.325;
-//       taxAtLowerRate = incomeAtLowerRate * lowerRate;
-//     }
-//   } else {
-//     bracket = 5;
-//     topRate = 0.45;
-//     spaceInBracket = income - 180001;
-//     if (shaving > spaceInBracket) {
-//       incomeAtTopRate = spaceInBracket;
-//       incomeAtLowerRate = shaving - spaceInBracket;
-//       taxAtTopRate = incomeAtTopRate * topRate;
-//       lowerRate = 0.37;
-//       taxAtLowerRate = incomeAtLowerRate * lowerRate;
-//     }
-//   }
-
-//   return {
-//     topRate,
-//     incomeAtTopRate,
-//     taxAtTopRate,
-//     lowerRate,
-//     incomeAtLowerRate,
-//     taxAtLowerRate,
-//     totalTax: taxAtTopRate + taxAtLowerRate,
-//     amountLeftOver: shaving - (taxAtTopRate + taxAtLowerRate),
-//   };
-// }
+}

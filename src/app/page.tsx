@@ -3,11 +3,11 @@
 import { Chart } from "@/components/Chart/Chart";
 import { CompoundedGrid } from "@/components/CompoundedGrid/CompoundedGrid";
 import { ConcessionalCap } from "@/components/ConcessionalCap/ConcessionalCap";
+import { InputBlock } from "@/components/InputBlock/InputBlock";
 import { useState } from "react";
 import {
   calcCompoundInterest,
   getTopShavingTaxNaive,
-  getYAxis,
   mockShaving,
   taxBucket,
 } from "../utilities/utilities";
@@ -152,6 +152,14 @@ export default function Home() {
 
   return (
     <div>
+      <InputBlock
+        setIncome={setStatedIncome}
+        income={statedIncome}
+        setSalSac={setSalSacPerMonth}
+        salsac={salSacPerMonth}
+        setYAxis={setMaxYAxis}
+      />
+
       <div>
         <Chart
           bucketIncomes={incSalSac ? bucketIncomes : bucketIncomesWithoutSalSac}
@@ -175,7 +183,7 @@ export default function Home() {
 
       <div>{`before tax salary: ${adjustedForIncSuperIncome}`}</div>
 
-      <div className={styles.inputBlock}>
+      {/* 
         <label htmlFor="income">annual income</label>
         <input
           type="number"
@@ -193,16 +201,15 @@ export default function Home() {
           title="salsac"
           value={salSacPerMonth}
           onChange={(event) => setSalSacPerMonth(parseInt(event.target.value))}
-        />
+        /> */}
 
-        {/* <label htmlFor="incSuper">income includes Super?</label>
+      {/* <label htmlFor="incSuper">income includes Super?</label>
         <input
           type="checkbox"
           title="incSuper"
           checked={includesSuper}
           onChange={() => setIncludesSuper((prev) => !prev)}
         /> */}
-      </div>
 
       <div className={styles.summaryBlock}>
         <p>{`${salSacPerMonth} pre-tax income per month becomes:`}</p>
@@ -266,41 +273,6 @@ export default function Home() {
             medicareLevy + superTaxOnSG + superTaxOnSalSac
           }`}</p>
           <p>{`rem income: ${incomeAfterSGLevyAndSalSac}`}</p>
-        </div>
-
-        <div>
-          <h2>{`bucket 1: ${taxBucket1.bucketMin} - ${taxBucket1.bucketMax}: ${taxBucket1.taxRate}`}</h2>
-          <div>{`capacity ${taxBucket1.bucketCapacity}`}</div>
-          <div>{`tax ${taxBucket1.taxPaid}`}</div>
-          <div>{`take home ${taxBucket1.remIncome}`}</div>
-        </div>
-
-        <div>
-          <h2>{`bucket 2: ${taxBucket2.bucketMin} - ${taxBucket2.bucketMax}: ${taxBucket2.taxRate}`}</h2>
-          <div>{`capacity ${taxBucket2.bucketCapacity}`}</div>
-          <div>{`tax ${taxBucket2.taxPaid}`}</div>
-          <div>{`take home ${taxBucket2.remIncome}`}</div>
-        </div>
-
-        <div>
-          <h2>{`bucket 3: ${taxBucket3.bucketMin} - ${taxBucket3.bucketMax}: ${taxBucket3.taxRate}`}</h2>
-          <div>{`capacity ${taxBucket3.bucketCapacity}`}</div>
-          <div>{`tax ${taxBucket3.taxPaid}`}</div>
-          <div>{`take home ${taxBucket3.remIncome}`}</div>
-        </div>
-
-        <div>
-          <h2>{`bucket 4: ${taxBucket4.bucketMin} - ${taxBucket4.bucketMax}: ${taxBucket4.taxRate}`}</h2>
-          <div>{`capacity ${taxBucket4.bucketCapacity}`}</div>
-          <div>{`tax ${taxBucket4.taxPaid}`}</div>
-          <div>{`take home ${taxBucket4.remIncome}`}</div>
-        </div>
-
-        <div>
-          <h2>{`bucket 5: ${taxBucket5.bucketMin} - ${taxBucket5.bucketMax}: ${taxBucket5.taxRate}`}</h2>
-          <div>{`capacity ${taxBucket5.bucketCapacity}`}</div>
-          <div>{`tax ${taxBucket5.taxPaid}`}</div>
-          <div>{`take home ${taxBucket5.remIncome}`}</div>
         </div>
       </div>
     </div>
