@@ -3,8 +3,13 @@
 import { Chart } from "@/components/Chart/Chart";
 import { ConcessionalCap } from "@/components/ConcessionalCap/ConcessionalCap";
 import { useState } from "react";
+import {
+  getTopShavingTaxNaive,
+  getYAxis,
+  mockShaving,
+  taxBucket,
+} from "../utilities/utilities";
 import styles from "./page.module.css";
-import { getTopShavingTaxNaive, mockShaving, taxBucket } from "./utilities";
 
 const SG_RATE = 0.11; //11% for 2023/24, increasing to 11.5% next fin year.
 const CONTRIBUTIONS_TAX_RATE = 0.15;
@@ -15,9 +20,9 @@ export default function Home() {
   const [salSacPerMonth, setSalSacPerMonth] = useState(0);
   const [includesSuper, setIncludesSuper] = useState(true);
   const [incSalSac, setIncSalSac] = useState(true);
-  const [shavingBit, setShavingBit] = useState(mockShaving);
+  const [maxYAxis, setMaxYAxis] = useState(80000);
 
-  const [maxYAxis, setMaxYAxis] = useState(-1);
+  const [shavingBit, setShavingBit] = useState(mockShaving);
 
   const adjustedForIncSuperIncome = includesSuper
     ? statedIncome
@@ -39,10 +44,8 @@ export default function Home() {
   const salSacInAccount = salSacPerMonth - superTaxOnSalSac;
 
   // 4. Remaining salary taxed in income tax brackets.
-  const incomeAfterSGAndLevy =
-    adjustedForIncSuperIncome - superNetSG - medicareLevy;
 
-  const incomeAfterSGLevyAndSalSac = incomeAfterSGAndLevy - salSacPerMonth;
+  const incomeAfterSGLevyAndSalSac = salMinusSGAndMedicare - salSacPerMonth;
 
   const concessionalContributions = superNetSG + salSacPerMonth * 12;
   // const shavingBit = getTopShavingTax(incomeAfterSuperAndLevy, salSacPerMonth);
@@ -129,7 +132,7 @@ export default function Home() {
     taxBucket5.taxPaid;
 
   const ifSalSacWasIncomeAmount = getTopShavingTaxNaive(
-    incomeAfterSGAndLevy,
+    salMinusSGAndMedicare,
     salSacPerMonth
   ).amountRemaining;
 
@@ -142,7 +145,9 @@ export default function Home() {
         <Chart
           bucketIncomes={incSalSac ? bucketIncomes : bucketIncomesWithoutSalSac}
           bucketTaxes={incSalSac ? bucketTaxes : bucketTaxesWithoutSalSac}
-        ></Chart>
+          yAxisMax={maxYAxis}
+        />
+
         <div>
           <label htmlFor="incSalSac">include salary sacrifice in chart?</label>
           <input
@@ -157,13 +162,8 @@ export default function Home() {
       </div>
 
       <h1>Salary Sacrifice</h1>
-      {/* 
-      <div>
-        <h2>shaving bit</h2>
-      </div> */}
+
       <div>{`before tax salary: ${adjustedForIncSuperIncome}`}</div>
-      {/* <div>{`total tax no sal sac: ${}`}</div>
-      <div>{`total tax with sal sac; ${}`}</div> */}
 
       <div className={styles.inputBlock}>
         <label htmlFor="income">annual income</label>
@@ -171,8 +171,13 @@ export default function Home() {
           type="number"
           title="income"
           value={statedIncome}
-          onChange={(event) => setStatedIncome(parseInt(event.target.value))}
+          onChange={(event) => {
+            setStatedIncome(parseInt(event.target.value));
+            setMaxYAxis(() => getYAxis(parseInt(event.target.value)));
+          }}
         />
+        <div>{`yaxis: ${statedIncome}`}</div>
+        <div>{`yaxis: ${maxYAxis}`}</div>
 
         <label htmlFor="salsac">salary sacrifice</label>
         <input
@@ -194,7 +199,7 @@ export default function Home() {
       <div className={styles.summaryBlock}>
         <p>{`${salSacPerMonth} pre-tax income per month becomes:`}</p>
         <p>{`in bank account: ${ifSalSacWasIncomeAmount} - tax: ${
-          getTopShavingTaxNaive(incomeAfterSGAndLevy, salSacPerMonth)
+          getTopShavingTaxNaive(salMinusSGAndMedicare, salSacPerMonth)
             .taxOnShaving
         } - rate: ${
           getTopShavingTaxNaive(incomeAfterSGLevyAndSalSac, salSacPerMonth).rate

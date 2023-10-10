@@ -1,7 +1,118 @@
 {
-  "extends": "next/core-web-vitals",
+  "plugins": ["formatjs", "jsx-a11y", "unused-imports"],
+  "extends": [
+    "react-app",
+    "next/core-web-vitals",
+    "plugin:testing-library/react",
+    "plugin:jsx-a11y/recommended",
+    "plugin:storybook/recommended"
+  ],
   "rules": {
-    // Additional, per-project rules...
-    // "semi": "off"
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ]
+      }
+    ],
+    "testing-library/no-node-access": "off",
+    "formatjs/enforce-description": ["error", "literal"],
+    "formatjs/enforce-default-message": ["error", "literal"],
+    "react/jsx-curly-brace-presence": [
+      "error",
+      { "props": "never", "children": "never" }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "styled-components",
+            "message": "Please import from styled-components/macro"
+          },
+          {
+            "name": "render",
+            "message": "Please import from test-utils"
+          },
+          {
+            "name": "userEvent",
+            "message": "Please use the userEvent instance returned by the render() function in \"test-utils.tsx\""
+          }
+        ],
+        "patterns": [
+          "!styled-components/macro",
+          "@testing-library/react",
+          "@testing-library/user-event"
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "message": "Array.at() is not supported by all our target browsers",
+        "selector": "CallExpression[callee.property.name='at']"
+      },
+      {
+        "message": "String.replaceAll() is not supported by all our target browsers",
+        "selector": "CallExpression[callee.property.name='replaceAll']"
+      },
+      {
+        "message": "Object.hasOwn() is not supported by all our target browsers",
+        "selector": "CallExpression[callee.property.name='hasOwn']"
+      },
+      {
+        "message": "Please only use font-weight values in the design system. eg: ${fontWeight.normal}",
+        "selector": "VariableDeclaration TemplateLiteral > TemplateElement[value.raw=/font-weight.*[\\w,\\d]/]"
+      },
+      {
+        "message": "Please only use font-size unit values in the design system. eg: ${fontSize.lg}",
+        "selector": "VariableDeclaration TemplateLiteral > TemplateElement[value.raw=/font-size.*px/]"
+      },
+      {
+        "message": "Please only use line-height values in the design system. eg: ${lineHeight.loose}",
+        "selector": "VariableDeclaration TemplateLiteral > TemplateElement[value.raw=/(?:line-height:).*(?:(1\\.15|1\\.35|1\\.5|1\\.85);)/]"
+      }
+    ],
+    "unused-imports/no-unused-imports": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
+      }
+    },
+    {
+      "files": ["**/*.test.*"],
+      "rules": {
+        "no-restricted-syntax": "off"
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/switch-exhaustiveness-check": "error"
+      },
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      }
+    },
+    {
+      "files": ["functionalTests/**/*.ts", "functionalTests/**/*.tsx"],
+      "parserOptions": {
+        "project": "./tsconfig.testcafe.json"
+      }
+    }
+  ],
+  "ignorePatterns": ["worker"],
+  "settings": {
+    "testing-library/utils-module": "./src/test-utils.tsx",
+    "testing-library/custom-renders": ["renderHook"]
   }
 }

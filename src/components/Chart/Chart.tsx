@@ -35,10 +35,10 @@ const rates = [2, 15, 15, 0, 19, 32.5, 37, 45];
 type Props = {
   bucketIncomes: number[]; //TODO: length 8
   bucketTaxes: number[];
-  yAxisMax?: number;
+  yAxisMax: number;
 };
 
-export function Chart({ bucketIncomes, bucketTaxes, yAxisMax = 80000 }: Props) {
+export function Chart({ bucketIncomes, bucketTaxes, yAxisMax }: Props) {
   const options = {
     responsive: true,
     scales: {

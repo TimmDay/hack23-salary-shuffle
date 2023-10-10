@@ -12,7 +12,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## third party
 
-https://www.npmjs.com/package/react-chartjs-2
+chart: https://www.npmjs.com/package/react-chartjs-2
+tippy: https://www.npmjs.com/package/@tippyjs/react
+a11y compliant un-styled components: https://reach.tech/
+icons: react-feather
 
 ## Deploy on Vercel
 
