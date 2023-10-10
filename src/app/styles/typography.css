@@ -1,0 +1,66 @@
+:root {
+  --font-body-lineheight: 1.8;
+  --font-heading: "Raleway", sans-serif; /* headings */
+  --font-body: "Inter", sans-serif; /* main body font */
+  --font-emphasis: "Indie Flower", cursive; /* Inter has no italic, use this */
+
+  /* Font Sizes */
+  --font-size-base: 1rem;
+  --font-size-nav: 1.1rem;
+  --font-size-small: 0.8rem;
+  --font-size-smallest: 0.512rem;
+
+  /*--xtra-big-heading: 3.052rem;*/
+  --xtra-heading: 2.441rem; /* blog post title, h1 */
+  --heading-1: 1.953rem;
+  --heading-2: 1.563rem;
+  --heading-3: 1.25rem;
+  --heading-4: var(--font-size-base);
+  --heading-5: var(--font-size-small);
+  --heading-6: 0.64rem;
+  --heading-7: var(--font-size-smallest);
+}
+
+body {
+  font-size: var(--font-size-base);
+  font-family: "Inter", "Raleway", sans-serif;
+  line-height: var(--font-body-lineheight);
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-heading);
+}
+
+p,
+span,
+button,
+label,
+li {
+  font-family: var(--font-body);
+}
+
+p {
+  line-height: var(--font-body-lineheight);
+}
+
+h1 {
+  font-size: var(--heading-1); /* post headers on post page */
+  text-transform: capitalize;
+}
+
+h2 {
+  font-size: var(--heading-3); /* grid and column layout headers */
+  text-transform: capitalize;
+}
+
+h3 {
+  font-size: var(
+    --heading-2
+  ); /* post headers on post cards (bigger than layout headers) */
+  text-transform: capitalize;
+}
