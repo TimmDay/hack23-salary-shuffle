@@ -1,13 +1,23 @@
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import styles from "./InfoTippy.module.css";
-type Props = {};
+"use client";
 
-export function InfoTippy({}: Props) {
+import Tippy from "@tippyjs/react";
+import { Icon, IconId } from "../Icon/Icon";
+import styles from "./InfoTippy.module.css";
+type Props = {
+  iconId?: IconId;
+  children: React.ReactNode;
+};
+
+export function InfoTippy({ iconId = "alert-circle", children }: Props) {
   return (
     <div className={styles.wrapper}>
-      <Tippy interactive={true} content={<div> tip tip tiodo</div>}>
-        <p>tip tip todo</p>
+      <Tippy
+        interactive={true}
+        content={<div className={styles.content}>{children}</div>}
+      >
+        <div>
+          <Icon id={iconId} />
+        </div>
       </Tippy>
     </div>
   );
