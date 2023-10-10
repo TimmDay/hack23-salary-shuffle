@@ -1,9 +1,11 @@
 "use client";
 
 import { Chart } from "@/components/Chart/Chart";
+import { CompoundedGrid } from "@/components/CompoundedGrid/CompoundedGrid";
 import { ConcessionalCap } from "@/components/ConcessionalCap/ConcessionalCap";
 import { useState } from "react";
 import {
+  calcCompoundInterest,
   getTopShavingTaxNaive,
   getYAxis,
   mockShaving,
@@ -11,7 +13,7 @@ import {
 } from "../utilities/utilities";
 import styles from "./page.module.css";
 
-const SG_RATE = 0.11; //11% for 2023/24, increasing to 11.5% next fin year.
+const SG_RATE = 0.11; //11% for 2023/24, increasing to 11.5% 2024/25, then 12% 2025/26.
 const CONTRIBUTIONS_TAX_RATE = 0.15;
 const MEDICARE_LEVY_RATE = 0.02;
 
@@ -44,8 +46,8 @@ export default function Home() {
   const salSacInAccount = salSacPerMonth - superTaxOnSalSac;
 
   // 4. Remaining salary taxed in income tax brackets.
-
-  const incomeAfterSGLevyAndSalSac = salMinusSGAndMedicare - salSacPerMonth;
+  const incomeAfterSGLevyAndSalSac =
+    salMinusSGAndMedicare - salSacPerMonth * 12;
 
   const concessionalContributions = superNetSG + salSacPerMonth * 12;
   // const shavingBit = getTopShavingTax(incomeAfterSuperAndLevy, salSacPerMonth);
@@ -82,7 +84,7 @@ export default function Home() {
   const bucketIncomes = [
     0,
     superInAccount,
-    salSacInAccount,
+    salSacInAccount * 12,
     taxBucket1.remIncome,
     taxBucket2.remIncome,
     taxBucket3.remIncome,
@@ -92,7 +94,7 @@ export default function Home() {
   const bucketTaxes = [
     medicareLevy,
     superTaxOnSG,
-    superTaxOnSalSac,
+    superTaxOnSalSac * 12,
     taxBucket1.taxPaid,
     taxBucket2.taxPaid,
     taxBucket3.taxPaid,
@@ -121,7 +123,7 @@ export default function Home() {
     noSacTaxBucket5.taxPaid,
   ];
 
-  const totalTax =
+  const totalTaxWithSalSac =
     medicareLevy +
     superTaxOnSG +
     superTaxOnSalSac +
@@ -131,6 +133,16 @@ export default function Home() {
     taxBucket4.taxPaid +
     taxBucket5.taxPaid;
 
+  const totalTaxWithNoSalSac =
+    medicareLevy +
+    superTaxOnSG +
+    0 +
+    noSacTaxBucket1.taxPaid +
+    noSacTaxBucket2.taxPaid +
+    noSacTaxBucket3.taxPaid +
+    noSacTaxBucket4.taxPaid +
+    noSacTaxBucket5.taxPaid;
+
   const ifSalSacWasIncomeAmount = getTopShavingTaxNaive(
     salMinusSGAndMedicare,
     salSacPerMonth
@@ -139,7 +151,6 @@ export default function Home() {
   const salSacSavings = salSacInAccount - ifSalSacWasIncomeAmount;
 
   return (
-    // <div className={styles.main}>
     <div>
       <div>
         <Chart
@@ -157,9 +168,8 @@ export default function Home() {
             onChange={() => setIncSalSac((prev) => !prev)}
           />
         </div>
-
-        <ConcessionalCap sg={superNetSG} salSacPerMonth={salSacPerMonth} />
       </div>
+      <ConcessionalCap sg={superNetSG} salSacPerMonth={salSacPerMonth} />
 
       <h1>Salary Sacrifice</h1>
 
@@ -176,8 +186,6 @@ export default function Home() {
             setMaxYAxis(() => getYAxis(parseInt(event.target.value)));
           }}
         />
-        <div>{`yaxis: ${statedIncome}`}</div>
-        <div>{`yaxis: ${maxYAxis}`}</div>
 
         <label htmlFor="salsac">salary sacrifice</label>
         <input
@@ -207,7 +215,30 @@ export default function Home() {
         <p>{`in super fund: ${salSacInAccount} - tax: ${superTaxOnSalSac} - rate: ${CONTRIBUTIONS_TAX_RATE}`}</p>
 
         <p>{`Diff: ${salSacSavings}`}</p>
-        <p>{`Per Year: ${salSacSavings * 12}`}</p>
+        <p>{`Tax Savings Per Year: ${salSacSavings * 12}`}</p>
+        <p>{`Annual sal sac contributions after tax: ${
+          salSacInAccount * 12
+        }`}</p>
+
+        <div>{`total tax paid WITH NO salary sacrifice: ${totalTaxWithNoSalSac.toFixed(
+          2
+        )} : ${(totalTaxWithNoSalSac / adjustedForIncSuperIncome) * 100}`}</div>
+
+        <div>{`total tax paid WITH salary sacrifice: ${totalTaxWithSalSac.toFixed(
+          2
+        )} : ${(totalTaxWithSalSac / adjustedForIncSuperIncome) * 100}`}</div>
+
+        <CompoundedGrid amount={salSacInAccount * 12} />
+
+        <div>
+          <div>{`compounded at 6% for 30 years ${calcCompoundInterest(
+            0,
+            6,
+            30,
+            salSacInAccount * 12
+          )}`}</div>
+        </div>
+
         {/* <p>{`percentage increase of take home pay: ${}`}</p> */}
 
         {/* <p>{`adj income: ${121000}`}</p>
@@ -218,9 +249,7 @@ export default function Home() {
         {/* <p>{`: ${}`}</p> */}
         {/* <p>{`: ${}`}</p> */}
       </div>
-      <div>{`total tax paid: ${totalTax.toFixed(2)} : ${
-        (totalTax / adjustedForIncSuperIncome) * 100
-      }`}</div>
+
       <div>
         <h2>Super</h2>
         <div>SG: {superNetSG}</div>

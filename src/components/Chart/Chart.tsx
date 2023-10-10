@@ -47,7 +47,7 @@ export function Chart({ bucketIncomes, bucketTaxes, yAxisMax }: Props) {
       },
       y: {
         stacked: true,
-        max: yAxisMax, //TODO: dymanic based on income?
+        max: yAxisMax,
       },
     },
     plugins: {
