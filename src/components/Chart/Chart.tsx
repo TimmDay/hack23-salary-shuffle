@@ -20,57 +20,58 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  scales: {
-    x: {
-      stacked: true,
-    },
-    y: {
-      stacked: true,
-    },
-  },
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-      text: "Tax Buckets",
-    },
-  },
-};
-
 const labels = [
-  "Medicare Levy",
-  "Super Guarantee",
-  "Salary Sacrifice",
-  "0 - 18200",
-  "18201 - 45000",
-  "45001 - 120000",
-  "120001 = 180000",
-  "180001+",
+  "Medicare Levy (2%)",
+  "Super Guarantee (15%)",
+  "Salary Sacrifice (15%)",
+  "0 - 18200 (0%)",
+  "18201 - 45000 (19%)",
+  "45001 - 120000 (32.5%)",
+  "120001 - 180000 (37%)",
+  "180001+ (45%)",
 ];
-
-const bucketIncomes = [16000, 20000, 20000, 26800, 75000, 60000, 60000, 60000];
+const rates = [2, 15, 15, 0, 19, 32.5, 37, 45];
 
 type Props = {
   bucketIncomes: number[]; //TODO: length 8
   bucketTaxes: number[];
+  yAxisMax?: number;
 };
 
-export function Chart({ bucketIncomes, bucketTaxes }: Props) {
+export function Chart({ bucketIncomes, bucketTaxes, yAxisMax = 80000 }: Props) {
+  const options = {
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+        max: yAxisMax, //TODO: dymanic based on income?
+      },
+    },
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Tax Buckets",
+      },
+    },
+  };
+
   const data = {
     labels,
     datasets: [
       {
         label: "post-tax income",
-        data: labels.map((_, index) => bucketIncomes[index]), //faker.datatype.number({ min: 0, max: 1000 })),
+        data: labels.map((_, index) => bucketIncomes[index]),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
         label: "tax",
-        data: labels.map((_, index) => bucketTaxes[index]), //faker.datatype.number({ min: 0, max: 1000 })),
+        data: labels.map((_, index) => bucketTaxes[index]),
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],

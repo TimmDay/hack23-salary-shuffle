@@ -1,6 +1,7 @@
 "use client";
 
 import { Chart } from "@/components/Chart/Chart";
+import { ConcessionalCap } from "@/components/ConcessionalCap/ConcessionalCap";
 import { useState } from "react";
 import styles from "./page.module.css";
 import { getTopShavingTaxNaive, mockShaving, taxBucket } from "./utilities";
@@ -13,7 +14,10 @@ export default function Home() {
   const [statedIncome, setStatedIncome] = useState(0);
   const [salSacPerMonth, setSalSacPerMonth] = useState(0);
   const [includesSuper, setIncludesSuper] = useState(true);
+  const [incSalSac, setIncSalSac] = useState(true);
   const [shavingBit, setShavingBit] = useState(mockShaving);
+
+  const [maxYAxis, setMaxYAxis] = useState(-1);
 
   const adjustedForIncSuperIncome = includesSuper
     ? statedIncome
@@ -40,18 +44,31 @@ export default function Home() {
 
   const incomeAfterSGLevyAndSalSac = incomeAfterSGAndLevy - salSacPerMonth;
 
+  const concessionalContributions = superNetSG + salSacPerMonth * 12;
   // const shavingBit = getTopShavingTax(incomeAfterSuperAndLevy, salSacPerMonth);
   // useEffect(() => {
   //   setShavingBit(getTopShavingTax(incomeAfterSuperAndLevy, salSacPerMonth));
   // }, [incomeAfterSuperAndLevy, salSacPerMonth]);
 
-  // 5 income tax brackets
+  // 5 income tax brackets with sal sac
   const taxBucket1 = taxBucket(incomeAfterSGLevyAndSalSac, 0, 18200, 0);
   const taxBucket2 = taxBucket(incomeAfterSGLevyAndSalSac, 18201, 45000, 19);
   const taxBucket3 = taxBucket(incomeAfterSGLevyAndSalSac, 45001, 120000, 32.5);
   const taxBucket4 = taxBucket(incomeAfterSGLevyAndSalSac, 120001, 180000, 37);
   const taxBucket5 = taxBucket(
     incomeAfterSGLevyAndSalSac,
+    180001,
+    Infinity,
+    45
+  );
+
+  // 5 income tax brackets WITHOUT sal sac
+  const noSacTaxBucket1 = taxBucket(salMinusSGAndMedicare, 0, 18200, 0);
+  const noSacTaxBucket2 = taxBucket(salMinusSGAndMedicare, 18201, 45000, 19);
+  const noSacTaxBucket3 = taxBucket(salMinusSGAndMedicare, 45001, 120000, 32.5);
+  const noSacTaxBucket4 = taxBucket(salMinusSGAndMedicare, 120001, 180000, 37);
+  const noSacTaxBucket5 = taxBucket(
+    salMinusSGAndMedicare,
     180001,
     Infinity,
     45
@@ -80,8 +97,26 @@ export default function Home() {
     taxBucket5.taxPaid,
   ];
 
-  const bucketIncomesWithoutSalSac = [];
-  const taxesWithoutSalSac = [];
+  const bucketIncomesWithoutSalSac = [
+    0,
+    superInAccount,
+    0,
+    noSacTaxBucket1.remIncome,
+    noSacTaxBucket2.remIncome,
+    noSacTaxBucket3.remIncome,
+    noSacTaxBucket4.remIncome,
+    noSacTaxBucket5.remIncome,
+  ];
+  const bucketTaxesWithoutSalSac = [
+    medicareLevy,
+    superTaxOnSG,
+    0,
+    noSacTaxBucket1.taxPaid,
+    noSacTaxBucket2.taxPaid,
+    noSacTaxBucket3.taxPaid,
+    noSacTaxBucket4.taxPaid,
+    noSacTaxBucket5.taxPaid,
+  ];
 
   const totalTax =
     medicareLevy +
@@ -103,7 +138,23 @@ export default function Home() {
   return (
     // <div className={styles.main}>
     <div>
-      <Chart bucketIncomes={bucketIncomes} bucketTaxes={bucketTaxes}></Chart>
+      <div>
+        <Chart
+          bucketIncomes={incSalSac ? bucketIncomes : bucketIncomesWithoutSalSac}
+          bucketTaxes={incSalSac ? bucketTaxes : bucketTaxesWithoutSalSac}
+        ></Chart>
+        <div>
+          <label htmlFor="incSalSac">include salary sacrifice in chart?</label>
+          <input
+            type="checkbox"
+            title="incSalSac"
+            checked={incSalSac}
+            onChange={() => setIncSalSac((prev) => !prev)}
+          />
+        </div>
+
+        <ConcessionalCap sg={superNetSG} salSacPerMonth={salSacPerMonth} />
+      </div>
 
       <h1>Salary Sacrifice</h1>
       {/* 
@@ -124,7 +175,6 @@ export default function Home() {
         />
 
         <label htmlFor="salsac">salary sacrifice</label>
-
         <input
           type="number"
           title="salsac"
