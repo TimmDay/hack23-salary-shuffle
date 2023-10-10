@@ -6,4 +6,9 @@
 }
 .wrapper {
   background-color: bisque;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding-inline: 12px;
+  border-radius: var(--borderRadius);
 }
