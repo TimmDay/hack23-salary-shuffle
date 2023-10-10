@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Indie_Flower, Inter, Raleway } from "next/font/google";
 import Link from "next/link";
-import "./globals.css";
+import styles from "./layout.module.css";
+import "./styles/globals.css";
+import "./styles/theme.css";
+import "./styles/tippy.css";
+import "./styles/typography.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const raleway = Raleway({ subsets: ["latin"] });
+const indieFlower = Indie_Flower({ weight: "400" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,13 +23,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main>
-          <nav>
-            {" Salary Shuffle"}
+      <body
+        className={`${raleway.className} ${inter.className} ${indieFlower.className}`}
+      >
+        <main className={styles.main}>
+          <nav className={styles.nav}>
+            <div>{" Salary Shuffle"}</div>
             <Link href="/">tldr</Link>
             <Link href="/fhss">FHSS</Link>
             <Link href="/expats">Expats</Link>
+            <Link href="/carryForward">Carry Forwards</Link>
             <Link href="/voluntary">Voluntary Contributions</Link>
             <Link href="/hecs">HECS</Link>
             <Link href="/extraBenefits">Why super good</Link>

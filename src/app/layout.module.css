@@ -1,0 +1,9 @@
+.main {
+  margin: 0;
+  padding-inline: 48px;
+}
+
+.nav {
+  padding: 12px;
+  background-color: aqua;
+}
