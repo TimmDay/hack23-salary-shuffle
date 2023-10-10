@@ -1,5 +1,35 @@
 :root {
   /* colors */
+  --color-success-100: #a2f0bc;
+  --color-success-500: #12bd4b;
+  --color-error-100: #f1acc9;
+  --color-error-500: #a10c4a;
+
+  --color-grey-50: hsl(265, 55%, 96%);
+  --color-grey-100: hsl(265, 19%, 88%);
+  --color-grey-200: hsl(265, 7%, 70%);
+  --color-grey-300: hsl(265, 6%, 66%);
+  --color-grey-400: hsl(265, 4%, 57%);
+  --color-grey-500: hsl(265, 3%, 53%);
+  --color-grey-600: hsl(265, 4%, 42%);
+  --color-grey-700: hsl(265, 4%, 31%);
+  --color-grey-800: hsl(276, 5%, 20%);
+  --color-grey-900: hsl(280, 5%, 13%);
+
+  --color-primary: hsl(30 44% 97%);
+  --color-primary-offset-hsl: 30 44% 94%;
+  --color-primary-offset: hsl(var(--color-primary-offset-hsl)); /*#EBEBEB;*/
+
+  --color-contrast: hsl(20 20% 17%);
+  --color-contrast-offset: hsl(0, 0%, 60%);
+
+  --color-secondary: #c19160; /*hsl(30 45% 65%); /* #C19160; */
+
+  --color-accent-1: #109795; /* emphasise text */
+  --color-accent-2: #50aa9a; /* btns */
+
+  --box-shadow: 1px 5px 10px hsl(0deg 0% 0% / 0.07);
+
   --bg: #aaa;
   --borderRadius: 8px;
 }
