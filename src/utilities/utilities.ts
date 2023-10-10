@@ -17,11 +17,18 @@ export function getYAxis(income: number) {
     case 1:
       return 30000;
     case 2:
+      const inBracketBit = income - 45001;
+      if (inBracketBit < 52000) return 40000;
+      if (inBracketBit < 60000) return 50000;
+      if (inBracketBit < 68000) return 55000;
+      if (inBracketBit < 85000) return 70000;
       return 80000;
     case 3:
       return 80000;
     case 4:
-      return income - (income * 2) / 3;
+      const inBracketBit4 = income - 180001;
+      if (inBracketBit4 < 117000) return 80000;
+      return inBracketBit4 + 1;
     default:
       return 80000;
   }
