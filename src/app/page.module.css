@@ -33,3 +33,13 @@
   margin-top: 8px;
   margin-bottom: 32px;
 }
+.cuteLabel {
+  font-size: var(--heading-4);
+  color: var(--color-grey-400);
+}
+.green {
+  /* color: var(--color-success-500); */
+}
+.red {
+  /* color: var(--color-error-500); */
+}

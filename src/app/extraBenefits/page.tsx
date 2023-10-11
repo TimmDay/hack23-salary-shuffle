@@ -36,6 +36,11 @@ export default function ExtraSuperBenefits() {
         </li>
       </ul>
       <p>It will compound faster, in a tax-advantaged secure environment.</p>
+      <p>
+        If you use SG and Salary Sacrifice, you don't even have to do any extra
+        paperwork or tax stuff - just send an email to the appropriate person at
+        work and everything is automatic.
+      </p>
 
       <div>
         <Link
