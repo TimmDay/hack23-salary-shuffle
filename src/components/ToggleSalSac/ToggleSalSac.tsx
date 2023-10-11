@@ -5,8 +5,10 @@ type Props = { incSalSac: boolean; setIncSalSac: any };
 export function ToggleSalSac({ incSalSac, setIncSalSac }: Props) {
   return (
     <div className={styles.wrapper}>
-      <div>
-        <label htmlFor="incSalSac">include salary sacrifice in chart?</label>
+      <div className={styles.toggle}>
+        <label htmlFor="incSalSac">
+          include salary sacrifice in calculations?
+        </label>
         <input
           type="checkbox"
           title="incSalSac"

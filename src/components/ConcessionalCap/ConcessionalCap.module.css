@@ -8,16 +8,13 @@
   background-color: transparent;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 800px;
+  justify-content: flex-end;
   border-radius: var(--borderRadius);
   margin-top: -8px;
+  width: 500px;
 }
 .tipContent {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  position: relative;
 }

@@ -4,7 +4,7 @@
 }
 
 .inputBlock {
-  background-color: aliceblue;
+  background-color: var(--color-primary-offset);
   padding-inline: 12px;
   padding-top: 32px;
   padding-bottom: 60px;
@@ -30,7 +30,7 @@
 .annotationBase {
   position: absolute;
   bottom: 8px;
-  right: -280px; /* offset the width on ConcessionalCap component */
+  right: 8px;
 }
 
 .tippy {

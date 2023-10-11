@@ -8,6 +8,8 @@ import { BucketResults } from "./types";
     3. 120001, 180000, 37
     4. 180001, Infinity, 45
 */
+export const CONTRIBUTIONS_TAX_RATE = 0.15;
+
 const RATES = [0, 0.19, 0.325, 0.37, 0.45];
 
 export function getYAxis(income: number) {

@@ -12,7 +12,7 @@ export function ConcessionalCap({ sg, salSacPerMonth }: Props) {
     <div className={styles.wrapper}>
       <p
         className={amountIsUnder ? styles.isUnder : styles.isOver}
-      >{`You have used ${total} of ${CONCESSIONAL_CAP}`}</p>
+      >{`You have used $${total} of $${CONCESSIONAL_CAP}`}</p>
 
       <Tippy sg={sg} salSacPerMonth={salSacPerMonth} />
     </div>

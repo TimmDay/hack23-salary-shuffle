@@ -1,9 +1,18 @@
 .wrapper {
-  background-color: bisque;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   padding-inline: 12px;
   border-radius: var(--borderRadius);
+}
+.toggle {
+  display: flex;
+  gap: 24px;
+  margin-block: 12px;
+  label {
+    color: var(--color-contrast);
+    font-size: var(--heading-3);
+  }
 }
