@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Indie_Flower, Inter, Raleway } from "next/font/google";
+import { Inter, Raleway } from "next/font/google";
 import Link from "next/link";
 import styles from "./layout.module.css";
 import "./styles/globals.css";
@@ -9,7 +9,7 @@ import "./styles/typography.css";
 
 const inter = Inter({ subsets: ["latin"] });
 const raleway = Raleway({ subsets: ["latin"] });
-const indieFlower = Indie_Flower({ weight: "400" });
+// const indieFlower = Indie_Flower({ weight: "400" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,9 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${raleway.className} ${inter.className} ${indieFlower.className}`}
-      >
+      <body className={`${raleway.className} ${inter.className}`}>
         <main className={styles.main}>
           <nav className={styles.nav}>
             <div className={styles.logo}>
