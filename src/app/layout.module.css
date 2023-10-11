@@ -23,16 +23,14 @@
   display: flex;
   flex-direction: column;
   margin-right: 48px;
-
-  div:first-child {
-    font-size: var(--heading-2);
-    text-decoration: line-through;
-    color: var(--color-primary);
-  }
-
-  div:last-child {
-    font-size: var(--heading-1);
-    font-family: var(--font-emphasis);
-    color: var(--color-primary);
-  }
+}
+.logo div:first-child {
+  font-size: var(--heading-2);
+  text-decoration: line-through;
+  color: var(--color-primary);
+}
+.logo div:last-child {
+  font-size: var(--heading-1);
+  font-family: var(--font-emphasis);
+  color: var(--color-primary);
 }
