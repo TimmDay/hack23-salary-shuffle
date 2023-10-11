@@ -28,8 +28,9 @@ type IconInputProps = {
   width: number;
   size: Sizes;
   placeholder: string;
-  // value: any
-  // onChange: any
+  title: string;
+  value: any;
+  onChange: any;
 };
 
 export function DollarInput(props: IconInputProps) {
