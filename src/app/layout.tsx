@@ -32,12 +32,12 @@ export default function RootLayout({
                 <div>{" Salary Shuffle"}</div>
               </div>
             </Link>
-            <Link href="/expats">Expats</Link>
-            <Link href="/fhss">FHSS</Link>
+            <Link href="/expats">Retiring Overseas</Link>
+            <Link href="/extraBenefits">Why super?</Link>
+            <Link href="/voluntary">Personal Contributions</Link>
             <Link href="/carryForward">Carry Forwards</Link>
-            <Link href="/voluntary">Voluntary Contributions</Link>
+            <Link href="/fhss">FHSS</Link>
             <Link href="/hecs">HECS</Link>
-            <Link href="/extraBenefits">Why super good</Link>
           </nav>
           <div className={styles.content}>{children}</div>
         </main>

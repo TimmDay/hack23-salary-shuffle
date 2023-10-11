@@ -180,10 +180,12 @@ export default function Home() {
             bucketTaxes={incSalSac ? bucketTaxes : bucketTaxesWithoutSalSac}
             yAxisMax={maxYAxis}
           />
-          <div className={styles.totals}>{`Total tax: $${totalTax}`}</div>
           <div
             className={styles.totals}
-          >{`Total remaining after-tax: $${totalAfterTaxSal}`}</div>
+          >{`Total annual tax: $${totalTax}`}</div>
+          <div
+            className={styles.totals}
+          >{`Total remuneration after tax: $${totalAfterTaxSal}`}</div>
         </div>
         <SavingsSummary
           salSacPerMonth={salSacPerMonth}
