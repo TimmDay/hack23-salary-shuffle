@@ -43,7 +43,26 @@ function Tippy({ sg, salSacPerMonth }: any) {
           HOWEVER, there is a trick to exceed it. You can carry forward leftover
           cap from the previous 5 years. Here's how:
         </div>
-        <Link href="/carryForward">Carry Forward Contributions</Link>
+        <Link href="https://www.ato.gov.au/individuals/super/growing-and-keeping-track-of-your-super/caps-limits-and-tax-on-super-contributions/concessional-contributions-cap/#:~:text=You%20can%20carry%20forward%20unused,amounts%20are%20carried%20forward%20first.">
+          Carry Forward Contributions
+        </Link>
+
+        <div>
+          SG means 'Siper Guarantee'. It is the amount that your employer MUST
+          (by law)pay into your super. At quarterly or less intervals.
+        </div>
+        <div>
+          For fin year 2023/34 that SG rate is 11%. It will go up to 11.5% next
+          year and 12% the year after that. s
+        </div>
+
+        <Link
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.ato.gov.au/individuals/super/growing-and-keeping-track-of-your-super/caps-limits-and-tax-on-super-contributions/concessional-contributions-cap/#:~:text=From%201%20July%202021%2C%20the,ordinary%20time%20earnings%20(AWOTE)."
+        >
+          ATO SG Super Guarantee
+        </Link>
       </div>
     </InfoTippy>
   );

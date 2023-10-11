@@ -42,3 +42,9 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.tipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

@@ -6,7 +6,7 @@ import styles from "./InfoTippy.module.css";
 type Props = {
   iconId?: IconId;
   children: React.ReactNode;
-  placement?: "top" | "bottom";
+  placement?: "top" | "bottom" | "left" | "right";
 };
 
 export function InfoTippy({

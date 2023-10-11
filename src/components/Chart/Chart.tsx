@@ -67,12 +67,12 @@ export function Chart({ bucketIncomes, bucketTaxes, yAxisMax }: Props) {
       {
         label: "post-tax income",
         data: labels.map((_, index) => bucketIncomes[index]),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "#a2f0bc",
       },
       {
         label: "tax",
         data: labels.map((_, index) => bucketTaxes[index]),
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: "#f1acc9",
       },
     ],
   };

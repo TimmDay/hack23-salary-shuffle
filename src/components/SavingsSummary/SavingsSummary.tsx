@@ -1,5 +1,6 @@
 import {
   CONTRIBUTIONS_TAX_RATE,
+  getTopIncomeBracketRate,
   getTopShavingTaxNaive,
 } from "@/utilities/utilities";
 
@@ -24,9 +25,13 @@ export function SavingsSummary({
   );
   const chunkIncomeTax = chunkAsNormalIncome.taxOnShaving;
   const chunkAfterTax = chunkAsNormalIncome.amountRemaining;
+  const topIncomeTaxBracketRate = getTopIncomeBracketRate(
+    salMinusSGAndMedicare
+  );
 
   const salSacConcessionalTax = salSacPerMonth * CONTRIBUTIONS_TAX_RATE;
   const salSacAfterTax = salSacPerMonth - salSacConcessionalTax;
+  const salSacAfterTaxAnnual = 12 * salSacAfterTax;
 
   const savingsBySalSac = salSacAfterTax - chunkAfterTax;
   const annualSavings = 12 * savingsBySalSac;
@@ -40,60 +45,171 @@ export function SavingsSummary({
         <div className={styles.contentChunk}>
           <div className={styles.containingTip}>
             <div>{`$${chunkAfterTax} in your bank account, or`}</div>
-            {/* TODO: tippy showing income marginal tax rate * chunk */}
-            <Tippy />
+            <TippyIncome
+              rate={topIncomeTaxBracketRate}
+              salsac={salSacPerMonth}
+            />
           </div>
           <div className={styles.containingTip}>
             <div>{`$${salSacAfterTax} in your super fund`}</div>
-            {/* TODO: tippy showing concessional tax rate * chunk */}
-            <Tippy />
+            <TippySalSac
+              rate={CONTRIBUTIONS_TAX_RATE}
+              salsac={salSacPerMonth}
+            />
           </div>
           <div>{`(An increase of $${savingsBySalSac.toFixed(
             2
           )} of after-tax monthly income)`}</div>
-          <div>{`That's $${annualSavings.toFixed(
+          <div>{`That's an extra $${annualSavings.toFixed(
             2
-          )} per year in extra after-tax income.`}</div>
+          )} per year in after-tax income.`}</div>
 
-          <div>{`Or an effective ${annualSavings.toFixed(
+          <div>{`(a total of $${salSacAfterTaxAnnual.toFixed(
             2
-          )}% increase in annual tax salary.`}</div>
+          )} annual salary sacrifice contributions).`}</div>
 
-          <div>{`Total Salary Sac contributions annual are: ${annualSavings.toFixed(
-            2
-          )}% increase in annual tax salary.`}</div>
-
-          {/* tippy with compounded graph */}
           <div className={styles.containingTip}>
-            <div>{`Compounded over decades?`}</div>
-            <Tippy />
+            <div>{`How might $${salSacAfterTaxAnnual.toFixed(
+              2
+            )} compound over decades?`}</div>
+            <TippyCompound amount={salSacAfterTaxAnnual} />
+          </div>
+
+          <div className={styles.containingTip}>
+            <div>{`What's the catch?`}</div>
+            <TippyPreservationAge
+              rate={CONTRIBUTIONS_TAX_RATE}
+              salsac={salSacPerMonth}
+            />
+          </div>
+
+          <div className={styles.containingTip}>
+            <div>{`What's the catch of the catch (FHSS)?`}</div>
+            <TippyFHSS rate={CONTRIBUTIONS_TAX_RATE} salsac={salSacPerMonth} />
           </div>
         </div>
       </div>
-
-      <p>{`Total Tax Paid with${
-        incSalSac ? "" : "OUT"
-      } salary sacrifice: ${1234}`}</p>
-      <p>{`After Tax income: ${12342134}`}</p>
     </div>
   );
 }
 
-function Tippy() {
+function TippyIncome({ rate, salsac }: { rate: number; salsac: number }) {
+  const tax = salsac * rate;
+  const afterTax = salsac - tax;
+
   return (
     <InfoTippy iconId="alert-circle">
       <div className={styles.tipContent}>
-        <div>{`Assumptions:`}</div>
-        <div>{`Annual Salary includes super`}</div>
-        <div>{`You are not paying the medicare levy surcharge`}</div>
+        <div>{`$${salsac} taxed at your top income tax bracket of ${
+          rate * 100
+        }% is reduced by $${tax.toFixed(2)} of tax to $${afterTax.toFixed(
+          2
+        )}`}</div>
+      </div>
+    </InfoTippy>
+  );
+}
 
-        <Link
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.ato.gov.au/Individuals/Medicare-and-private-health-insurance/Medicare-levy-surcharge/Paying-the-medicare-levy-surcharge/"
-        >
-          ATO: Medicare Levy Surcharge
-        </Link>
+function TippySalSac({ rate, salsac }: { rate: number; salsac: number }) {
+  const tax = salsac * rate;
+  const afterTax = salsac - tax;
+
+  return (
+    <InfoTippy iconId="alert-circle">
+      <div className={styles.tipContent}>
+        <div>{`$${salsac} taxed at the concessional tax rate of ${
+          rate * 100
+        }% is reduced by $${tax.toFixed(2)} of tax to $${afterTax.toFixed(
+          2
+        )}`}</div>
+      </div>
+    </InfoTippy>
+  );
+}
+
+function TippyCompound({ amount }: { amount: number }) {
+  return (
+    <InfoTippy iconId="alert-triangle" placement="left">
+      <div className={styles.tipContent}>
+        <p>
+          Rates of return of markets are uncertain, and depend on your
+          investment mix (tax savings however, are certain and instant). Ttreat
+          this section as guesstimate only..
+        </p>
+        <a href="#compound-table">See a table</a>
+      </div>
+    </InfoTippy>
+  );
+}
+
+function TippyPreservationAge({
+  rate,
+  salsac,
+}: {
+  rate: number;
+  salsac: number;
+}) {
+  const tax = salsac * rate;
+  const afterTax = salsac - tax;
+
+  return (
+    <InfoTippy iconId="alert-circle">
+      <div className={styles.tipContent}>
+        <div>{`You cannot access your superannuation fund until you reach preservation age (or on compassionate grounds, or use the FHSS).`}</div>
+
+        <div>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.ato.gov.au/Individuals/Jobs-and-employment-types/Working-as-an-employee/Leaving-the-workforce/Accessing-your-super-to-retire/#:~:text=Preservation%20age,-Your%20preservation%20age&text=If%20you%20are%2060%20years,a%20super%20lump%20sum"
+          >
+            ATO: Preservation Age
+          </Link>
+        </div>
+
+        <div>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.ato.gov.au/individuals/super/withdrawing-and-using-your-super/early-access-to-super/when-you-can-access-your-super-early/#:~:text=You%20may%20be%20allowed%20to,arising%20from%20a%20severe%20disability"
+          >
+            ATO: Early Super Withdrawal
+          </Link>
+        </div>
+      </div>
+    </InfoTippy>
+  );
+}
+
+function TippyFHSS({ rate, salsac }: { rate: number; salsac: number }) {
+  const tax = salsac * rate;
+  const afterTax = salsac - tax;
+
+  return (
+    <InfoTippy iconId="alert-circle">
+      <div className={styles.tipContent}>
+        <div>{`The First Home Buyer Scheme is a way to save a deposit for your first home with reduced-tax earnings in a tax-free environment - so you'll get there faster.`}</div>
+        <div>
+          - Only Voluntary or Salary Sacrifice Contributions count towards it
+          (not the super guarantee that work pays automatically)
+        </div>
+        <div>
+          - You can only withdraw up to 15K of voluntary contributions from a
+          given fin year.
+        </div>
+        <div>
+          - You can withdraw up to a max of 50k (so it would take you at least 4
+          years of heavy salary sacrificing to get to the max benefit).
+        </div>
+        <div>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.ato.gov.au/Individuals/Super/Withdrawing-and-using-your-super/First-Home-Super-Saver-Scheme/#Howyoucansaveinsuper"
+          >
+            ATO: First Home SUper Saver Scheme
+          </Link>
+        </div>
       </div>
     </InfoTippy>
   );

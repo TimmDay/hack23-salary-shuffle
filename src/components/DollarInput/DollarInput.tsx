@@ -49,6 +49,7 @@ export function DollarInput(props: IconInputProps) {
       <input
         className={styles.textInput}
         type="number"
+        min={0}
         width={width}
         style={cssvars}
         {...delegated}

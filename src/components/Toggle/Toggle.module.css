@@ -1,0 +1,131 @@
+/* // Keep for a11y, but hide and focus onto a presentation component with custom styles. */
+.nativeCheck {
+  appearance: none;
+  margin: 0;
+}
+
+.presentationCheck-inactive {
+  /* width: calc(2 * ${({ $circleDiameter }) => $circleDiameter}px); */
+  /* height: ${({ $circleDiameter }) =>
+    $circleDiameter ? `${$circleDiameter + 4}px` : '24px'}; */
+  /* border-radius: ${({ $circleDiameter }) => $circleDiameter}px; */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  padding-inline: 12px;
+  /* ${spacing.sm}; */
+  position: relative;
+  cursor: pointer;
+}
+
+/* For perf reasons we transition the opacity of a pseudo rather than bg-color directly. */
+.presentationCheck-inactive::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  /* background-color: ${({ $backgroundColor }) => color[$backgroundColor]}; */
+  /* border-radius: ${({ $circleDiameter }) => $circleDiameter}px; */
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.presentationCheck-active::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  /* background-color: ${({ $backgroundColor }) => color[$backgroundColor]}; */
+  /* border-radius: ${({ $circleDiameter }) => $circleDiameter}px; */
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 200ms ease-in;
+}
+.presentationCheck-active {
+}
+
+.circle {
+  /* width: ${({ $circleDiameter }) => $circleDiameter}px;
+  height: ${({ $circleDiameter }) => $circleDiameter}px;
+  background-color: ${color.white};
+  border-radius: 50%;
+
+  transform: ${({ $selected, $circleDiameter }) =>
+    $selected ? `translateX(${$circleDiameter - 6}px)` : 'translateX(-2px)'};
+  transition: transform ${ANIMATION_DURATION}ms ease-in-out;
+
+  display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+/* const PresentationCheck = styled.span<{
+  $toggleActive: boolean
+  $circleDiameter: number
+  $backgroundColor: keyof typeof color
+}>`
+  width: calc(2 * ${({ $circleDiameter }) => $circleDiameter}px);
+  height: ${({ $circleDiameter }) =>
+    $circleDiameter ? `${$circleDiameter + 4}px` : '24px'};
+  border-radius: ${({ $circleDiameter }) => $circleDiameter}px;
+  display: flex;
+  align-items: center;
+  padding-inline: ${spacing.sm};
+  position: relative;
+  cursor: pointer;
+
+  // For perf reasons we transition the opacity of a pseudo rather than bg-color directly.
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: ${({ $backgroundColor }) => color[$backgroundColor]};
+    border-radius: ${({ $circleDiameter }) => $circleDiameter}px;
+    opacity: ${(props) => (props.$toggleActive ? 1 : 0)};
+    transition: opacity ${ANIMATION_DURATION}ms ease-in;
+  }
+
+  // + is adjacent sibling combinator. Mirror the actual focus that is hidden, onto this presentation component.
+  ${NativeCheck}:focus-visible + & {
+    outline: 3px solid ${color.pink};
+    z-index: 1;
+  }
+  // Hide annoying outline for mouse users but preserve for keyboard users. Ignored by browsers that don’t support :focus-visible.
+  ${NativeCheck}:focus:not(:focus-visible) + & {
+    outline: 0;
+  }
+`
+
+const Circle = styled.div<{ $selected: boolean; $circleDiameter: number }>`
+  width: ${({ $circleDiameter }) => $circleDiameter}px;
+  height: ${({ $circleDiameter }) => $circleDiameter}px;
+  background-color: ${color.white};
+  border-radius: 50%;
+
+  transform: ${({ $selected, $circleDiameter }) =>
+    $selected ? `translateX(${$circleDiameter - 6}px)` : 'translateX(-2px)'};
+  transition: transform ${ANIMATION_DURATION}ms ease-in-out;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Label = styled.label`
+  margin-left: auto;
+  display: block;
+  position: relative;
+  padding-right: 35px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+` */

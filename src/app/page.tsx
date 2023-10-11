@@ -132,6 +132,8 @@ export default function Home() {
     taxBucket3.taxPaid +
     taxBucket4.taxPaid +
     taxBucket5.taxPaid;
+  const afterTaxIncomeWithSalSac =
+    adjustedForIncSuperIncome - totalTaxWithSalSac;
 
   const totalTaxWithNoSalSac =
     medicareLevy +
@@ -143,7 +145,13 @@ export default function Home() {
     noSacTaxBucket4.taxPaid +
     noSacTaxBucket5.taxPaid;
 
-  // const afterTaxIncomeNoSalSac =
+  const afterTaxIncomeNoSalSac =
+    adjustedForIncSuperIncome - totalTaxWithNoSalSac;
+
+  const totalTax = incSalSac ? totalTaxWithSalSac : totalTaxWithNoSalSac;
+  const totalAfterTaxSal = incSalSac
+    ? afterTaxIncomeWithSalSac
+    : afterTaxIncomeNoSalSac;
 
   return (
     <div>
@@ -156,66 +164,56 @@ export default function Home() {
         superNetSG={superNetSG}
       />
 
-      <ToggleSalSac incSalSac={incSalSac} setIncSalSac={setIncSalSac} />
-
       <div className={styles.results}>
-        <Chart
-          bucketIncomes={incSalSac ? bucketIncomes : bucketIncomesWithoutSalSac}
-          bucketTaxes={incSalSac ? bucketTaxes : bucketTaxesWithoutSalSac}
-          yAxisMax={maxYAxis}
-        />
-
+        <div>
+          <ToggleSalSac incSalSac={incSalSac} setIncSalSac={setIncSalSac} />
+          <Chart
+            bucketIncomes={
+              incSalSac ? bucketIncomes : bucketIncomesWithoutSalSac
+            }
+            bucketTaxes={incSalSac ? bucketTaxes : bucketTaxesWithoutSalSac}
+            yAxisMax={maxYAxis}
+          />
+          <div className={styles.totals}>{`Total tax: $${totalTax}`}</div>
+          <div
+            className={styles.totals}
+          >{`Total remaining after-tax: $${totalAfterTaxSal}`}</div>
+        </div>
         <SavingsSummary
           salSacPerMonth={salSacPerMonth}
           salMinusSGAndMedicare={salMinusSGAndMedicare}
-          // inSuperFundAmount={}
           incSalSac={incSalSac}
         />
       </div>
 
-      <h1>Salary Sacrifice</h1>
+      {statedIncome !== 0 && statedIncome ? (
+        <section className={styles.compoundSection}>
+          <h2 id="compound-table">
+            Compounding Totals for various potential rates of return
+          </h2>
 
-      <div>{`before tax salary: ${adjustedForIncSuperIncome}`}</div>
-
-      {/* <label htmlFor="incSuper">income includes Super?</label>
+          {/* <label htmlFor="incSuper">income includes Super?</label>
         <input
-          type="checkbox"
-          title="incSuper"
-          checked={includesSuper}
-          onChange={() => setIncludesSuper((prev) => !prev)}
-        /> */}
+        type="checkbox"
+        title="incSuper"
+        checked={includesSuper}
+        onChange={() => setIncludesSuper((prev) => !prev)}
+      /> */}
 
-      <div className={styles.summaryBlock}>
-        <CompoundedGrid amount={salSacInAccount * 12} />
+          <div className={styles.summaryBlock}>
+            <CompoundedGrid amount={salSacInAccount * 12} />
 
-        <div>
-          <div>{`compounded at 6% for 30 years ${calcCompoundInterest(
-            0,
-            6,
-            30,
-            salSacInAccount * 12
-          )}`}</div>
-        </div>
-      </div>
-
-      <div>
-        <h2>Super</h2>
-        <div>SG: {superNetSG}</div>
-        <div>Tax: {superTaxOnSG}</div>
-      </div>
-
-      <div>
-        <div>
-          <h2>{`bucket 0: medicareLevy + SG + SalSac`}</h2>
-          <p>{`medicare levy: ${medicareLevy.toFixed(2)}`}</p>
-          <p>{`SG:  ${superNetSG} - SG tax: ${superTaxOnSG.toFixed(2)}`}</p>
-          <p>{`Sal Sac: ${salSacPerMonth} - SalSac tax: ${superTaxOnSalSac}`}</p>
-          <p>{`subtotal tax: ${
-            medicareLevy + superTaxOnSG + superTaxOnSalSac
-          }`}</p>
-          <p>{`rem income: ${incomeAfterSGLevyAndSalSac}`}</p>
-        </div>
-      </div>
+            <div>
+              <div>{`compounded at 6% for 30 years $${calcCompoundInterest(
+                0,
+                6,
+                30,
+                salSacInAccount * 12
+              )}`}</div>
+            </div>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

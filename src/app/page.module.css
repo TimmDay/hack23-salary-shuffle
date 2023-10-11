@@ -1,10 +1,27 @@
 .results {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 32px;
   flex-wrap: wrap;
 }
 
 .chart {
   min-width: 600px;
   max-width: 1200px;
+}
+
+.totals {
+  font-size: var(--heading-3);
+  padding-left: 16px;
+  margin: 8px;
+}
+
+.compoundSection {
+  margin-top: 32px;
+
+  h2 {
+    margin: 16px;
+    font-size: var(--heading-2);
+    font-family: var(--font-emphasis);
+  }
 }

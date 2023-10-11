@@ -1,5 +1,5 @@
 .isUnder {
-  color: var(--color-success-500);
+  color: var(--color-accent-1);
 }
 .isOver {
   color: var(--color-error-500);

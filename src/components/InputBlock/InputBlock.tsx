@@ -79,13 +79,25 @@ function Tippy() {
         <div>{`Annual Salary includes super`}</div>
         <div>{`You are not paying the medicare levy surcharge`}</div>
 
-        <Link
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.ato.gov.au/Individuals/Medicare-and-private-health-insurance/Medicare-levy-surcharge/Paying-the-medicare-levy-surcharge/"
-        >
-          ATO: Medicare Levy Surcharge
-        </Link>
+        <div>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.ato.gov.au/Individuals/Medicare-and-private-health-insurance/Medicare-levy-surcharge/Paying-the-medicare-levy-surcharge/"
+          >
+            ATO: Medicare Levy Surcharge
+          </Link>
+        </div>
+
+        <div>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.ato.gov.au/individuals/super/growing-and-keeping-track-of-your-super/how-to-save-more-in-your-super/salary-sacrificing-super/#:~:text=Salary%20sacrifice%20super%20contributions%20are,salary%20sacrifice%20arrangement%20in%20place."
+          >
+            ATO: Salary Sacrificing SUper
+          </Link>
+        </div>
       </div>
     </InfoTippy>
   );

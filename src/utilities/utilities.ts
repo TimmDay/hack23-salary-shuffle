@@ -92,6 +92,10 @@ export function getTopShavingTaxNaive(
   };
 }
 
+export function getTopIncomeBracketRate(income: number) {
+  const bracket = getTopTaxBracket(income);
+  return RATES[bracket];
+}
 function getTopTaxBracket(income: number) {
   if (income < 18201) return 0;
   if (income >= 18201 && income < 45001) return 1;

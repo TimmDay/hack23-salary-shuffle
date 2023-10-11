@@ -1,5 +1,5 @@
 .wrapper {
-  background-color: bisque;
+  background-color: var(--color-primary-offset);
   padding-inline: 12px;
   border-radius: var(--borderRadius);
 
@@ -12,5 +12,8 @@
 }
 
 .gridItem {
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  padding: 8px 16px;
+  display: flex;
+  justify-content: flex-end;
 }
