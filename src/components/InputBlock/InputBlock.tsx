@@ -1,15 +1,17 @@
 import { getYAxis } from "@/utilities/utilities";
 import Link from "next/link";
+import { ConcessionalCap } from "../ConcessionalCap/ConcessionalCap";
 import { DollarInput } from "../DollarInput/DollarInput";
 import { InfoTippy } from "../Tippy/InfoTippy";
 import styles from "./InputBlock.module.css";
 
 type Props = {
   setIncome: any;
-  income: any;
+  income: number;
   setSalSac: any;
-  salsac: any;
+  salsac: number;
   setYAxis: any;
+  superNetSG: number;
 };
 
 export function InputBlock({
@@ -18,45 +20,54 @@ export function InputBlock({
   setYAxis,
   income,
   salsac,
+  superNetSG,
 }: Props) {
   return (
-    <div className={styles.inputBlock}>
-      <div className={styles.tippy}>
-        <Tippy />
-      </div>
+    <>
+      <div className={styles.wrapper}>
+        <div className={styles.inputBlock}>
+          <div className={styles.tippy}>
+            <Tippy />
+          </div>
+          <div>
+            <div className={styles.annotation}>Annual Salary</div>
+            <DollarInput
+              label={"annual salary"}
+              width={0}
+              size={"large"}
+              placeholder={"annual salary"}
+              title={"annual salary"}
+              value={income}
+              onChange={(event: any) => {
+                setIncome(parseInt(event.target.value));
+                setYAxis(() => getYAxis(parseInt(event.target.value)));
+              }}
+            />
+          </div>
 
-      <div>
-        <div className={styles.annotation}>Annual Salary</div>
-        <DollarInput
-          label={"annual salary"}
-          width={0}
-          size={"large"}
-          placeholder={"annual salary"}
-          title={"annual salary"}
-          value={income}
-          onChange={(event: any) => {
-            setIncome(parseInt(event.target.value));
-            setYAxis(() => getYAxis(parseInt(event.target.value)));
-          }}
-        />
-      </div>
-
-      <div>
-        <div className={styles.annotation}>Monthly Salary Sacrifice</div>
-        <div className={styles.salsac}>
-          <DollarInput
-            label={"salary sacrifice"}
-            width={0}
-            size={"large"}
-            placeholder={"monthly salary sacrifice"}
-            title="salsac"
-            value={salsac}
-            onChange={(event: any) => setSalSac(parseInt(event.target.value))}
-          />
-          <span className={styles.perMonth}>/ mo </span>
+          <div>
+            <div className={styles.annotation}>Monthly Salary Sacrifice</div>
+            <div className={styles.salsac}>
+              <DollarInput
+                label={"salary sacrifice"}
+                width={0}
+                size={"large"}
+                placeholder={"monthly salary sacrifice"}
+                title="salsac"
+                value={salsac}
+                onChange={(event: any) =>
+                  setSalSac(parseInt(event.target.value))
+                }
+              />
+              <span className={styles.perMonth}>/ mo </span>
+            </div>
+            <div className={styles.annotationBase}>
+              <ConcessionalCap sg={superNetSG} salSacPerMonth={salsac} />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

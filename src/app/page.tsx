@@ -2,19 +2,19 @@
 
 import { Chart } from "@/components/Chart/Chart";
 import { CompoundedGrid } from "@/components/CompoundedGrid/CompoundedGrid";
-import { ConcessionalCap } from "@/components/ConcessionalCap/ConcessionalCap";
 import { InputBlock } from "@/components/InputBlock/InputBlock";
+import { SavingsSummary } from "@/components/SavingsSummary/SavingsSummary";
+import { ToggleSalSac } from "@/components/ToggleSalSac/ToggleSalSac";
 import { useState } from "react";
 import {
+  CONTRIBUTIONS_TAX_RATE,
   calcCompoundInterest,
-  getTopShavingTaxNaive,
   mockShaving,
   taxBucket,
 } from "../utilities/utilities";
 import styles from "./page.module.css";
 
 const SG_RATE = 0.11; //11% for 2023/24, increasing to 11.5% 2024/25, then 12% 2025/26.
-const CONTRIBUTIONS_TAX_RATE = 0.15;
 const MEDICARE_LEVY_RATE = 0.02;
 
 export default function Home() {
@@ -143,13 +143,6 @@ export default function Home() {
     noSacTaxBucket4.taxPaid +
     noSacTaxBucket5.taxPaid;
 
-  const ifSalSacWasIncomeAmount = getTopShavingTaxNaive(
-    salMinusSGAndMedicare,
-    salSacPerMonth
-  ).amountRemaining;
-
-  const salSacSavings = salSacInAccount - ifSalSacWasIncomeAmount;
-
   return (
     <div>
       <InputBlock
@@ -158,50 +151,29 @@ export default function Home() {
         setSalSac={setSalSacPerMonth}
         salsac={salSacPerMonth}
         setYAxis={setMaxYAxis}
+        superNetSG={superNetSG}
       />
 
-      <div>
+      <ToggleSalSac incSalSac={incSalSac} setIncSalSac={setIncSalSac} />
+
+      <div className={styles.results}>
         <Chart
           bucketIncomes={incSalSac ? bucketIncomes : bucketIncomesWithoutSalSac}
           bucketTaxes={incSalSac ? bucketTaxes : bucketTaxesWithoutSalSac}
           yAxisMax={maxYAxis}
         />
 
-        <div>
-          <label htmlFor="incSalSac">include salary sacrifice in chart?</label>
-          <input
-            type="checkbox"
-            title="incSalSac"
-            checked={incSalSac}
-            onChange={() => setIncSalSac((prev) => !prev)}
-          />
-        </div>
+        <SavingsSummary
+          salSacPerMonth={salSacPerMonth}
+          salMinusSGAndMedicare={salMinusSGAndMedicare}
+          // inSuperFundAmount={}
+          incSalSac={incSalSac}
+        />
       </div>
-      <ConcessionalCap sg={superNetSG} salSacPerMonth={salSacPerMonth} />
 
       <h1>Salary Sacrifice</h1>
 
       <div>{`before tax salary: ${adjustedForIncSuperIncome}`}</div>
-
-      {/* 
-        <label htmlFor="income">annual income</label>
-        <input
-          type="number"
-          title="income"
-          value={statedIncome}
-          onChange={(event) => {
-            setStatedIncome(parseInt(event.target.value));
-            setMaxYAxis(() => getYAxis(parseInt(event.target.value)));
-          }}
-        />
-
-        <label htmlFor="salsac">salary sacrifice</label>
-        <input
-          type="number"
-          title="salsac"
-          value={salSacPerMonth}
-          onChange={(event) => setSalSacPerMonth(parseInt(event.target.value))}
-        /> */}
 
       {/* <label htmlFor="incSuper">income includes Super?</label>
         <input
@@ -213,7 +185,7 @@ export default function Home() {
 
       <div className={styles.summaryBlock}>
         <p>{`${salSacPerMonth} pre-tax income per month becomes:`}</p>
-        <p>{`in bank account: ${ifSalSacWasIncomeAmount} - tax: ${
+        {/* <p>{`in bank account: ${ifSalSacWasIncomeAmount} - tax: ${
           getTopShavingTaxNaive(salMinusSGAndMedicare, salSacPerMonth)
             .taxOnShaving
         } - rate: ${
@@ -225,7 +197,7 @@ export default function Home() {
         <p>{`Tax Savings Per Year: ${salSacSavings * 12}`}</p>
         <p>{`Annual sal sac contributions after tax: ${
           salSacInAccount * 12
-        }`}</p>
+        }`}</p> */}
 
         <div>{`total tax paid WITH NO salary sacrifice: ${totalTaxWithNoSalSac.toFixed(
           2

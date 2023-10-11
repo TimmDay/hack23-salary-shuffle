@@ -11,6 +11,7 @@ const decades = [10, 20, 30, 40];
 export function CompoundedGrid({ amount }: Props) {
   return (
     <div className={styles.wrapper}>
+      {/* Column headers */}
       <div className={styles.gridItem}></div>
       {decades.map((decade) => (
         <div className={styles.gridItem}>{`${decade} years`}</div>

@@ -1,1 +1,9 @@
+.results {
+  display: flex;
+  justify-content: space-around;
+}
 
+.chart {
+  min-width: 600px;
+  max-width: 1200px;
+}

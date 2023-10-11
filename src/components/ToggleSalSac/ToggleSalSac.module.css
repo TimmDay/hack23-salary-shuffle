@@ -1,0 +1,9 @@
+.wrapper {
+  background-color: bisque;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-inline: 12px;
+  border-radius: var(--borderRadius);
+}

@@ -1,14 +1,23 @@
 .isUnder {
-  color: green;
+  color: var(--color-success-500);
 }
 .isOver {
-  color: red;
+  color: var(--color-error-500);
 }
 .wrapper {
-  background-color: bisque;
+  background-color: transparent;
   display: flex;
   align-items: center;
-  width: fit-content;
-  padding-inline: 12px;
+  justify-content: center;
+  width: 800px;
   border-radius: var(--borderRadius);
+  margin-top: -8px;
+}
+.tipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  position: relative;
 }
