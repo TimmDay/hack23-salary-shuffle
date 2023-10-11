@@ -6,7 +6,9 @@ export function ToggleSalSac({ incSalSac, setIncSalSac }: Props) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.toggle}>
-        <label htmlFor="incSalSac">include salary sacrifice on chart?</label>
+        <label htmlFor="incSalSac">
+          Click to see how Salary Sacrifice lowers your tax burden
+        </label>
         <input
           type="checkbox"
           title="incSalSac"

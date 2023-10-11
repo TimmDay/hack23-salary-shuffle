@@ -44,29 +44,33 @@ export function SavingsSummary({
         >{`$${salSacPerMonth} of pre-tax income turns into either:`}</h3>
         <div className={styles.contentChunk}>
           <div className={styles.containingTip}>
-            <div>{`$${chunkAfterTax} in your bank account, or`}</div>
+            <p
+              className={styles.compare}
+            >{`$${chunkAfterTax} if you didn't salary sacrifice 🤷`}</p>
             <TippyIncome
               rate={topIncomeTaxBracketRate}
               salsac={salSacPerMonth}
             />
           </div>
+          <p className={styles.indent}>OR</p>
           <div className={styles.containingTip}>
-            <div>{`$${salSacAfterTax} in your super fund`}</div>
+            <p
+              className={styles.compare}
+            >{`$${salSacAfterTax} in your super fund 💰`}</p>
             <TippySalSac
               rate={CONTRIBUTIONS_TAX_RATE}
               salsac={salSacPerMonth}
             />
           </div>
-          <div>{`(An increase of $${savingsBySalSac.toFixed(
-            2
-          )} of after-tax monthly income)`}</div>
-          <div>{`That's an extra $${annualSavings.toFixed(
-            2
-          )} per year in after-tax income.`}</div>
 
-          <div>{`(a total of $${salSacAfterTaxAnnual.toFixed(
+          <h4 className={styles.head4}>THE BENEFITS OF SALARY SACRIFICE</h4>
+          <p>{`A $${savingsBySalSac.toFixed(2)} tax saving per month  🤩`}</p>
+          <div>{`(That's $${annualSavings.toFixed(2)} / year) 🤩🤩`}</div>
+
+          <div>{`That's $${salSacAfterTaxAnnual.toFixed(
             2
-          )} annual salary sacrifice contributions).`}</div>
+          )} extra annual savings in your super.`}</div>
+          <div>(Total salary sacrifice</div>
 
           <div className={styles.containingTip}>
             <div>{`How might $${salSacAfterTaxAnnual.toFixed(
@@ -131,10 +135,11 @@ function TippyCompound({ amount }: { amount: number }) {
   return (
     <InfoTippy iconId="alert-triangle" placement="left">
       <div className={styles.tipContent}>
+        <p>Warning: contains opinions</p>
         <p>
-          Rates of return of markets are uncertain, and depend on your
-          investment mix (tax savings however, are certain and instant). Ttreat
-          this section as guesstimate only..
+          Rates of return of markets are uncertain and depend on your investment
+          mix (however tax savings are certain and instant). Treat this section
+          as guesstimate only.
         </p>
         <a href="#compound-table">See a table</a>
       </div>
