@@ -28,7 +28,10 @@ export default function RootLayout({
       >
         <main className={styles.main}>
           <nav className={styles.nav}>
-            <div>{" Salary Shuffle"}</div>
+            <div className={styles.logo}>
+              <div>{"Salary Sacrifice"}</div>
+              <div>{" Salary Shuffle"}</div>
+            </div>
             <Link href="/">tldr</Link>
             <Link href="/fhss">FHSS</Link>
             <Link href="/expats">Expats</Link>
@@ -37,7 +40,7 @@ export default function RootLayout({
             <Link href="/hecs">HECS</Link>
             <Link href="/extraBenefits">Why super good</Link>
           </nav>
-          {children}
+          <div className={styles.content}>{children}</div>
         </main>
       </body>
     </html>

@@ -143,6 +143,8 @@ export default function Home() {
     noSacTaxBucket4.taxPaid +
     noSacTaxBucket5.taxPaid;
 
+  // const afterTaxIncomeNoSalSac =
+
   return (
     <div>
       <InputBlock
@@ -184,29 +186,6 @@ export default function Home() {
         /> */}
 
       <div className={styles.summaryBlock}>
-        <p>{`${salSacPerMonth} pre-tax income per month becomes:`}</p>
-        {/* <p>{`in bank account: ${ifSalSacWasIncomeAmount} - tax: ${
-          getTopShavingTaxNaive(salMinusSGAndMedicare, salSacPerMonth)
-            .taxOnShaving
-        } - rate: ${
-          getTopShavingTaxNaive(incomeAfterSGLevyAndSalSac, salSacPerMonth).rate
-        }`}</p>
-        <p>{`in super fund: ${salSacInAccount} - tax: ${superTaxOnSalSac} - rate: ${CONTRIBUTIONS_TAX_RATE}`}</p>
-
-        <p>{`Diff: ${salSacSavings}`}</p>
-        <p>{`Tax Savings Per Year: ${salSacSavings * 12}`}</p>
-        <p>{`Annual sal sac contributions after tax: ${
-          salSacInAccount * 12
-        }`}</p> */}
-
-        <div>{`total tax paid WITH NO salary sacrifice: ${totalTaxWithNoSalSac.toFixed(
-          2
-        )} : ${(totalTaxWithNoSalSac / adjustedForIncSuperIncome) * 100}`}</div>
-
-        <div>{`total tax paid WITH salary sacrifice: ${totalTaxWithSalSac.toFixed(
-          2
-        )} : ${(totalTaxWithSalSac / adjustedForIncSuperIncome) * 100}`}</div>
-
         <CompoundedGrid amount={salSacInAccount * 12} />
 
         <div>
@@ -217,16 +196,6 @@ export default function Home() {
             salSacInAccount * 12
           )}`}</div>
         </div>
-
-        {/* <p>{`percentage increase of take home pay: ${}`}</p> */}
-
-        {/* <p>{`adj income: ${121000}`}</p>
-        <p>{`top bracket: chunk: ${shavingBit.incomeAtTopRate} - rate:${shavingBit.topRate} - tax: ${shavingBit.taxAtTopRate}`}</p>
-        <p>{`next bracket: chunk: ${shavingBit.incomeAtLowerRate} - rate:${shavingBit.lowerRate} - tax: ${shavingBit.taxAtLowerRate}`}</p>
-        <p>{`$ in bank account: ${shavingBit.amountLeftOver.toFixed(2)}`}</p>
-        <p>{`total tax: ${shavingBit.totalTax.toFixed(2)}`}</p> */}
-        {/* <p>{`: ${}`}</p> */}
-        {/* <p>{`: ${}`}</p> */}
       </div>
 
       <div>
