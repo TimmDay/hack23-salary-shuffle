@@ -74,9 +74,9 @@ function Tippy() {
   return (
     <InfoTippy iconId="alert-circle" placement="bottom">
       <div className={styles.tipContent}>
-        <div>{`Assumptions:`}</div>
-        <div>{`Your salary includes compulsory super (SG)`}</div>
-        <div>{`You are not paying the medicare levy surcharge`}</div>
+        <div>Assumptions:</div>
+        <div>Stated salary includes compulsory super (SG)</div>
+        <div>You are not paying the medicare levy surcharge</div>
 
         <div>
           <Link
@@ -98,13 +98,16 @@ function Tippy() {
           </Link>
         </div>
 
-        <div>SG means 'Super Guarantee'.</div>
-        <div>It is the amount that your employer MUST</div>
-        <div>(by law)pay into your super.</div>
-
-        <div>It will go up to 11.5% next year</div>
-        <div>For fin year 2023/34 that SG rate is 11%.</div>
-        <div>and 12% the year after that.</div>
+        <div>
+          <div>SG means 'Super Guarantee'.</div>
+          <div>It is the amount that your employer MUST</div>
+          <div>(by law) pay into your super.</div>
+          <ul>
+            <li>For fin year 2023/24 that SG rate is 11%.</li>
+            <li>It will go up to 11.5% next year</li>
+            <li>and 12% the year after that.</li>
+          </ul>
+        </div>
 
         <Link
           target="_blank"

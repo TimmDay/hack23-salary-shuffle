@@ -120,7 +120,7 @@ export function calcCompoundInterest(
   // if (P === 0) P = 1; // free dollar congrats
   i = i / 100;
   const result = (P + A / i) * Math.pow(1 + i, n) - A / i;
-  return result.toFixed(2);
+  return result.toLocaleString(undefined, { minimumFractionDigits: 2 });
 }
 
 export function debounce(callback: any, wait: number) {

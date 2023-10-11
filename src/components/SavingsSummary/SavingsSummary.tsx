@@ -64,18 +64,21 @@ export function SavingsSummary({
           </div>
 
           <h4 className={styles.head4}>THE BENEFITS OF SALARY SACRIFICE</h4>
-          <p>{`A $${savingsBySalSac.toFixed(2)} tax saving per month  🤩`}</p>
-          <div>{`(That's $${annualSavings.toFixed(2)} / year) 🤩🤩`}</div>
+          <p>{`A $${savingsBySalSac.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+          })} tax saving per month  🤩`}</p>
+          <div>{`(That's $${annualSavings.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+          })} / year) 🤩🤩`}</div>
 
           <div>{`That's $${salSacAfterTaxAnnual.toFixed(
             2
           )} extra annual savings in your super.`}</div>
-          <div>(Total salary sacrifice</div>
 
           <div className={styles.containingTip}>
-            <div>{`How might $${salSacAfterTaxAnnual.toFixed(
-              2
-            )} compound over decades?`}</div>
+            <div>{`How might $${salSacAfterTaxAnnual.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })} compound over decades?`}</div>
             <TippyCompound amount={salSacAfterTaxAnnual} />
           </div>
 
@@ -106,9 +109,9 @@ function TippyIncome({ rate, salsac }: { rate: number; salsac: number }) {
       <div className={styles.tipContent}>
         <div>{`$${salsac} taxed at your top income tax bracket of ${
           rate * 100
-        }% is reduced by $${tax.toFixed(2)} of tax to $${afterTax.toFixed(
-          2
-        )}`}</div>
+        }% is reduced by $${tax.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+        })} of tax to $${afterTax.toFixed(2)}`}</div>
       </div>
     </InfoTippy>
   );
@@ -123,9 +126,9 @@ function TippySalSac({ rate, salsac }: { rate: number; salsac: number }) {
       <div className={styles.tipContent}>
         <div>{`$${salsac} taxed at the concessional tax rate of ${
           rate * 100
-        }% is reduced by $${tax.toFixed(2)} of tax to $${afterTax.toFixed(
-          2
-        )}`}</div>
+        }% is reduced by $${tax.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+        })} of tax to $${afterTax.toFixed(2)}`}</div>
       </div>
     </InfoTippy>
   );
