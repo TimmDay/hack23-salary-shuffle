@@ -59,7 +59,6 @@ export function InputBlock({
                   setSalSac(parseInt(event.target.value))
                 }
               />
-              <span className={styles.perMonth}>/ mo </span>
             </div>
             <div className={styles.annotationBase}>
               <ConcessionalCap sg={superNetSG} salSacPerMonth={salsac} />

@@ -1,4 +1,8 @@
 .wrapper {
   min-width: 800px;
   max-width: 1200px;
+
+  @media not screen and (min-width: 768px) {
+    min-width: 450px;
+  }
 }

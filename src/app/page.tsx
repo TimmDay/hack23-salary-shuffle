@@ -153,6 +153,12 @@ export default function Home() {
     ? afterTaxIncomeWithSalSac
     : afterTaxIncomeNoSalSac;
 
+  const renderCompoundTable =
+    statedIncome !== 0 &&
+    statedIncome &&
+    salSacPerMonth !== 0 &&
+    salSacPerMonth;
+
   return (
     <div>
       <InputBlock
@@ -203,7 +209,7 @@ export default function Home() {
           <div className={styles.summaryBlock}>
             <CompoundedGrid amount={salSacInAccount * 12} />
 
-            <div>
+            <div className={styles.summaryNote}>
               <div>{`compounded at 6% for 30 years $${calcCompoundInterest(
                 0,
                 6,
