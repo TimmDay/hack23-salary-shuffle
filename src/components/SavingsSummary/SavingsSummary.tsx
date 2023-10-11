@@ -145,6 +145,17 @@ function TippyCompound({ amount }: { amount: number }) {
           as guesstimate only.
         </p>
         <a href="#compound-table">See a table</a>
+
+        <p>You can check my math here</p>
+        <div>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.bankrate.com/banking/savings/compound-savings-calculator/"
+          >
+            Bankrate: compound interest calculator
+          </Link>
+        </div>
       </div>
     </InfoTippy>
   );
@@ -215,7 +226,7 @@ function TippyFHSS({ rate, salsac }: { rate: number; salsac: number }) {
             rel="noopener noreferrer"
             href="https://www.ato.gov.au/Individuals/Super/Withdrawing-and-using-your-super/First-Home-Super-Saver-Scheme/#Howyoucansaveinsuper"
           >
-            ATO: First Home SUper Saver Scheme
+            ATO: First Home Super Saver Scheme
           </Link>
         </div>
       </div>
