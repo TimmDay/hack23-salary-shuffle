@@ -26,13 +26,14 @@ export default function RootLayout({
       <body className={`${raleway.className} ${inter.className}`}>
         <main className={styles.main}>
           <nav className={styles.nav}>
-            <div className={styles.logo}>
-              <div>{"Salary Sacrifice"}</div>
-              <div>{" Salary Shuffle"}</div>
-            </div>
-            <Link href="/">tldr</Link>
-            <Link href="/fhss">FHSS</Link>
+            <Link href="/">
+              <div className={styles.logo}>
+                <div>{"Salary Sacrifice"}</div>
+                <div>{" Salary Shuffle"}</div>
+              </div>
+            </Link>
             <Link href="/expats">Expats</Link>
+            <Link href="/fhss">FHSS</Link>
             <Link href="/carryForward">Carry Forwards</Link>
             <Link href="/voluntary">Voluntary Contributions</Link>
             <Link href="/hecs">HECS</Link>
