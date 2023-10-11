@@ -23,6 +23,12 @@
   }
 }
 
+.wrapChunk h3 {
+  font-size: var(--heading-3);
+  color: var(--color-contrast);
+  text-transform: capitalize;
+}
+
 .contentChunk {
   padding: 16px;
   gap: 8px;

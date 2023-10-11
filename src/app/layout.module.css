@@ -10,10 +10,10 @@
   color: var(--color-primary);
   display: flex;
   align-items: center;
-  a {
-    color: var(--color-primary);
-    text-decoration: none;
-  }
+}
+.nav a {
+  color: var(--color-primary);
+  text-decoration: none;
 }
 .content {
   padding-inline: 48px;

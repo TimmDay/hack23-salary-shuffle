@@ -18,10 +18,9 @@
 
 .compoundSection {
   margin-top: 32px;
-
-  h2 {
-    margin: 16px;
-    font-size: var(--heading-2);
-    font-family: var(--font-emphasis);
-  }
+}
+.compoundSection h2 {
+  margin: 16px;
+  font-size: var(--heading-2);
+  font-family: var(--font-emphasis);
 }

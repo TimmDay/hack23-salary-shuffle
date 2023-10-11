@@ -11,8 +11,8 @@
   display: flex;
   gap: 24px;
   margin-block: 12px;
-  label {
-    color: var(--color-contrast);
-    font-size: var(--heading-3);
-  }
+}
+.toggle label {
+  color: var(--color-contrast);
+  font-size: var(--heading-3);
 }
