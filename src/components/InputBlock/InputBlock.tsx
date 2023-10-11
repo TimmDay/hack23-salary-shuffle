@@ -75,7 +75,7 @@ function Tippy() {
     <InfoTippy iconId="alert-circle" placement="bottom">
       <div className={styles.tipContent}>
         <div>{`Assumptions:`}</div>
-        <div>{`Annual Salary includes super`}</div>
+        <div>{`Your salary includes compulsory super (SG)`}</div>
         <div>{`You are not paying the medicare levy surcharge`}</div>
 
         <div>
@@ -94,9 +94,25 @@ function Tippy() {
             rel="noopener noreferrer"
             href="https://www.ato.gov.au/individuals/super/growing-and-keeping-track-of-your-super/how-to-save-more-in-your-super/salary-sacrificing-super/#:~:text=Salary%20sacrifice%20super%20contributions%20are,salary%20sacrifice%20arrangement%20in%20place."
           >
-            ATO: Salary Sacrificing SUper
+            ATO: Salary Sacrificing Super
           </Link>
         </div>
+
+        <div>SG means 'Super Guarantee'.</div>
+        <div>It is the amount that your employer MUST</div>
+        <div>(by law)pay into your super.</div>
+
+        <div>It will go up to 11.5% next year</div>
+        <div>For fin year 2023/34 that SG rate is 11%.</div>
+        <div>and 12% the year after that.</div>
+
+        <Link
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.ato.gov.au/individuals/super/growing-and-keeping-track-of-your-super/caps-limits-and-tax-on-super-contributions/concessional-contributions-cap/#:~:text=From%201%20July%202021%2C%20the,ordinary%20time%20earnings%20(AWOTE)."
+        >
+          ATO SG Super Guarantee
+        </Link>
       </div>
     </InfoTippy>
   );
