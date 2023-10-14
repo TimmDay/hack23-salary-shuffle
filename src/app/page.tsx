@@ -9,6 +9,7 @@ import { useState } from "react";
 import {
   CONTRIBUTIONS_TAX_RATE,
   calcCompoundInterest,
+  formatCurrency,
   mockShaving,
   taxBucket,
 } from "../utilities/utilities";
@@ -190,7 +191,9 @@ export default function Home() {
             <span className={styles.cuteLabel}>
               Total remuneration after tax:
             </span>
-            <span className={styles.green}>{` $${totalAfterTaxSal}`}</span>
+            <span className={styles.green}>{` ${formatCurrency(
+              totalAfterTaxSal
+            )}`}</span>
           </div>
         </div>
         <SavingsSummary
