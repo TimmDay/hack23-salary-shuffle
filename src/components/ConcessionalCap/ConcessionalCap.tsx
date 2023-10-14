@@ -23,9 +23,11 @@ function Tippy({ sg, salSacPerMonth }: any) {
   return (
     <InfoTippy iconId="alert-circle" placement="bottom">
       <div className={styles.tipContent}>
-        <div>{`The Concessional  Contributions Cap includes:`}</div>
-        <div>{`- super from employer: $${sg}`}</div>
-        <div>{`- annual super from salsac : $${salSacPerMonth * 12}`}</div>
+        <div>{`Your Concessional  Contributions Cap includes:`}</div>
+        <div>{`- Super from employer (SG): $${sg}`}</div>
+        <div>{`- Your annual contributions from Salary Sacrifice : $${
+          salSacPerMonth * 12
+        }`}</div>
         <div>
           This is the maximum amount of super contributions that you can get tax
           benefits for in a single financial year.

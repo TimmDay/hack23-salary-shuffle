@@ -136,9 +136,9 @@ function TippyIncome({ data }: Chunk) {
   const MultiBracket = !isSingleBracket && (
     <div className={styles.tipContent}>
       <div>
-        {`At your income your salary sacrifice of ${formatCurrency(
+        {`At your income a chunk of ${formatCurrency(
           salsac
-        )} spans your top two income tax brackets.`}
+        )} would span your top two income tax brackets.`}
       </div>
       <div>
         {`${formatCurrency(sliceTop)} of it is taxed at ${
