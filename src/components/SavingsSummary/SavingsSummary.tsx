@@ -1,7 +1,9 @@
 import {
   CONTRIBUTIONS_TAX_RATE,
+  ChunkTopIncome,
+  formatCurrency,
   getTopIncomeBracketRate,
-  getTopShavingTaxNaive,
+  getTopShavingTaxMultiBracket,
 } from "@/utilities/utilities";
 
 import Link from "next/link";
@@ -19,12 +21,14 @@ export function SavingsSummary({
   salSacPerMonth,
   salMinusSGAndMedicare,
 }: Props) {
-  const chunkAsNormalIncome = getTopShavingTaxNaive(
+  const chunkAsNormalIncome = getTopShavingTaxMultiBracket(
     salMinusSGAndMedicare,
     salSacPerMonth
   );
-  const chunkIncomeTax = chunkAsNormalIncome.taxOnShaving;
-  const chunkAfterTax = chunkAsNormalIncome.amountRemaining;
+
+  const chunkIncomeTax = chunkAsNormalIncome.totalTax;
+  const chunkAfterTax = chunkAsNormalIncome.amountAfterTax;
+
   const topIncomeTaxBracketRate = getTopIncomeBracketRate(
     salMinusSGAndMedicare
   );
@@ -44,19 +48,18 @@ export function SavingsSummary({
         >{`$${salSacPerMonth} of pre-tax income turns into either:`}</h3>
         <div className={styles.contentChunk}>
           <div className={styles.containingTip}>
-            <p
-              className={styles.compare}
-            >{`$${chunkAfterTax} if you didn't salary sacrifice 🤷`}</p>
-            <TippyIncome
-              rate={topIncomeTaxBracketRate}
-              salsac={salSacPerMonth}
-            />
+            <p className={styles.compare}>
+              {`${formatCurrency(
+                chunkAfterTax
+              )} if you didn't salary sacrifice 🤷`}
+            </p>
+            {chunkAsNormalIncome && <TippyIncome data={chunkAsNormalIncome} />}
           </div>
           <p className={styles.indent}>OR</p>
           <div className={styles.containingTip}>
-            <p
-              className={styles.compare}
-            >{`$${salSacAfterTax} in your super fund 💰`}</p>
+            <p className={styles.compare}>
+              {`${formatCurrency(salSacAfterTax)} in your super fund 💰`}
+            </p>
             <TippySalSac
               rate={CONTRIBUTIONS_TAX_RATE}
               salsac={salSacPerMonth}
@@ -64,22 +67,27 @@ export function SavingsSummary({
           </div>
 
           <h4 className={styles.head4}>THE BENEFITS OF SALARY SACRIFICE</h4>
-          <p>{`A $${savingsBySalSac.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-          })} tax saving per month  🤩`}</p>
-          <div>{`(That's $${annualSavings.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-          })} / year) 🤩🤩`}</div>
-
-          <div>{`That's $${salSacAfterTaxAnnual.toFixed(
-            2
-          )} extra annual savings in your super.`}</div>
+          <p>
+            {`A ${formatCurrency(savingsBySalSac)} tax saving per month  🤩`}
+          </p>
+          <div>{`(That's ${formatCurrency(annualSavings)} / year) 🤩🤩`}</div>
 
           <div className={styles.containingTip}>
-            <div>{`How might $${salSacAfterTaxAnnual.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-            })} compound over decades?`}</div>
-            <TippyCompound amount={salSacAfterTaxAnnual} />
+            <div>
+              {`That's ${formatCurrency(
+                salSacAfterTaxAnnual
+              )} extra annual savings in your super.`}
+            </div>
+            <TippyAnnualSalSac salsac={salSacPerMonth} />
+          </div>
+
+          <div className={styles.containingTip}>
+            <div>
+              {`How might ${formatCurrency(
+                salSacAfterTaxAnnual
+              )} compound over decades?`}
+            </div>
+            <TippyCompound />
           </div>
 
           <div className={styles.containingTip}>
@@ -100,18 +108,57 @@ export function SavingsSummary({
   );
 }
 
-function TippyIncome({ rate, salsac }: { rate: number; salsac: number }) {
-  const tax = salsac * rate;
-  const afterTax = salsac - tax;
+type Chunk = { data: ChunkTopIncome };
+function TippyIncome({ data }: Chunk) {
+  const {
+    sliceTop,
+    rateTop,
+    taxTop,
+    sliceUnder,
+    rateUnder,
+    taxUnder,
+    totalTax,
+    amountAfterTax,
+  } = data;
+  const isSingleBracket = sliceUnder === 0;
+  const salsac = sliceTop + sliceUnder;
+
+  const SingleBracket = isSingleBracket && (
+    <div>
+      {`${formatCurrency(salsac)} taxed at your top income tax bracket of ${
+        rateTop * 100
+      }% is reduced by ${formatCurrency(taxTop)} of tax to ${formatCurrency(
+        amountAfterTax
+      )}`}
+    </div>
+  );
+
+  const MultiBracket = !isSingleBracket && (
+    <div className={styles.tipContent}>
+      <div>
+        {`At your income your salary sacrifice of ${formatCurrency(
+          salsac
+        )} spans your top two income tax brackets.`}
+      </div>
+      <div>
+        {`${formatCurrency(sliceTop)} of it is taxed at ${
+          rateTop * 100
+        }% and ${formatCurrency(sliceUnder)} of it is taxed at ${
+          rateUnder * 100
+        }%`}
+      </div>
+      <div>
+        {`So ${salsac} is reduced by a total of ${formatCurrency(
+          totalTax
+        )} tax to ${formatCurrency(amountAfterTax)}`}
+      </div>
+    </div>
+  );
 
   return (
     <InfoTippy iconId="alert-circle">
       <div className={styles.tipContent}>
-        <div>{`$${salsac} taxed at your top income tax bracket of ${
-          rate * 100
-        }% is reduced by $${tax.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-        })} of tax to $${afterTax.toFixed(2)}`}</div>
+        {isSingleBracket ? SingleBracket : MultiBracket}
       </div>
     </InfoTippy>
   );
@@ -126,15 +173,15 @@ function TippySalSac({ rate, salsac }: { rate: number; salsac: number }) {
       <div className={styles.tipContent}>
         <div>{`$${salsac} taxed at the concessional tax rate of ${
           rate * 100
-        }% is reduced by $${tax.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-        })} of tax to $${afterTax.toFixed(2)}`}</div>
+        }% is reduced by ${formatCurrency(tax)} of tax to $${formatCurrency(
+          afterTax
+        )}`}</div>
       </div>
     </InfoTippy>
   );
 }
 
-function TippyCompound({ amount }: { amount: number }) {
+function TippyCompound() {
   return (
     <InfoTippy iconId="alert-triangle" placement="left">
       <div className={styles.tipContent}>
@@ -228,6 +275,34 @@ function TippyFHSS({ rate, salsac }: { rate: number; salsac: number }) {
           >
             ATO: First Home Super Saver Scheme
           </Link>
+        </div>
+      </div>
+    </InfoTippy>
+  );
+}
+
+function TippyAnnualSalSac({ salsac }: { salsac: number }) {
+  const annualSalSac = salsac * 12;
+  const annualSalSacTax = annualSalSac * CONTRIBUTIONS_TAX_RATE;
+  const annualSalSacMinusTax = annualSalSac - annualSalSacTax;
+
+  return (
+    <InfoTippy iconId="alert-circle">
+      <div className={styles.tipContent}>
+        <div>
+          {`Total Salary Sacrifice Contributions are ${formatCurrency(
+            salsac
+          )} * 12 months = ${formatCurrency(annualSalSac)} annually`}
+        </div>
+        <div>
+          {`Contributions tax on that is ${
+            CONTRIBUTIONS_TAX_RATE * 100
+          }%: ${formatCurrency(annualSalSacTax)}`}
+        </div>
+        <div>
+          {`Additional contributions due to Salary Sacrifice total: ${formatCurrency(
+            annualSalSacMinusTax
+          )}`}
         </div>
       </div>
     </InfoTippy>

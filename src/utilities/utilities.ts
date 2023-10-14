@@ -92,15 +92,20 @@ export function getTopShavingTaxNaive(
   };
 }
 
+export type ChunkTopIncome = {
+  totalTax: number;
+  amountAfterTax: number;
+  sliceTop: number;
+  rateTop: number;
+  taxTop: number;
+  sliceUnder: number;
+  rateUnder: number;
+  taxUnder: number;
+};
 export function getTopShavingTaxMultiBracket(
   income: number,
   shaving: number
-): {
-  taxOnShaving: number;
-  amountRemaining: number;
-  rateTop: number;
-  rateUnder: number;
-} {
+): ChunkTopIncome {
   const bracket = getTopTaxBracket(income);
   const topRate = RATES[bracket];
   const inTopTaxBracket = amountInTopTaxBracket(income);
@@ -120,10 +125,14 @@ export function getTopShavingTaxMultiBracket(
   const totalShavingTax = taxShavingTop + taxShavingLower;
 
   return {
-    taxOnShaving: totalShavingTax,
-    amountRemaining: shaving - totalShavingTax,
+    totalTax: totalShavingTax,
+    amountAfterTax: shaving - totalShavingTax,
     rateTop: topRate,
     rateUnder: rateBracketBelow,
+    taxTop: taxShavingTop,
+    taxUnder: taxShavingLower,
+    sliceTop: shavingTop,
+    sliceUnder: shavingLower,
   };
 }
 

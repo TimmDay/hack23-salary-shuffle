@@ -55,7 +55,7 @@ export default function Home() {
   //   setShavingBit(getTopShavingTax(incomeAfterSuperAndLevy, salSacPerMonth));
   // }, [incomeAfterSuperAndLevy, salSacPerMonth]);
 
-  // 5 income tax brackets with sal sac
+  // 5 income tax brackets WITH sal sac
   const taxBucket1 = taxBucket(incomeAfterSGLevyAndSalSac, 0, 18200, 0);
   const taxBucket2 = taxBucket(incomeAfterSGLevyAndSalSac, 18201, 45000, 19);
   const taxBucket3 = taxBucket(incomeAfterSGLevyAndSalSac, 45001, 120000, 32.5);
@@ -81,7 +81,7 @@ export default function Home() {
 
   // Chart data
   // ML, SG, SSac, 1, 2, 3, 4, 5
-  const bucketIncomes = [
+  const bucketIncomesWithSalSac = [
     0,
     superInAccount,
     salSacInAccount * 12,
@@ -91,7 +91,7 @@ export default function Home() {
     taxBucket4.remIncome,
     taxBucket5.remIncome,
   ];
-  const bucketTaxes = [
+  const bucketTaxesWithSalSac = [
     medicareLevy,
     superTaxOnSG,
     superTaxOnSalSac * 12,
@@ -175,9 +175,11 @@ export default function Home() {
           <ToggleSalSac incSalSac={incSalSac} setIncSalSac={setIncSalSac} />
           <Chart
             bucketIncomes={
-              incSalSac ? bucketIncomes : bucketIncomesWithoutSalSac
+              incSalSac ? bucketIncomesWithSalSac : bucketIncomesWithoutSalSac
             }
-            bucketTaxes={incSalSac ? bucketTaxes : bucketTaxesWithoutSalSac}
+            bucketTaxes={
+              incSalSac ? bucketTaxesWithSalSac : bucketTaxesWithoutSalSac
+            }
             yAxisMax={maxYAxis}
           />
           <div className={styles.totals}>
