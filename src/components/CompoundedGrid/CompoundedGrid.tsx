@@ -19,7 +19,7 @@ export function CompoundedGrid({ amount }: Props) {
         <>
           <div className={styles.gridItem}>{`at ${rate}%`}</div>
           {decades.map((decade) => (
-            <div className={styles.gridItem}>{`$${calcCompoundInterest(
+            <div className={styles.gridItem}>{`${calcCompoundInterest(
               1,
               rate,
               decade,

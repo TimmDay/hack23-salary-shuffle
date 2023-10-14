@@ -185,7 +185,7 @@ export default function Home() {
           />
           <div className={styles.totals}>
             <span className={styles.cuteLabel}>Total annual tax:</span>
-            <span className={styles.red}>{` $${totalTax}`}</span>
+            <span className={styles.red}>{` ${formatCurrency(totalTax)}`}</span>
           </div>
           <div className={styles.totals}>
             <span className={styles.cuteLabel}>
