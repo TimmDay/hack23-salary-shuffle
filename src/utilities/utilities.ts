@@ -92,6 +92,41 @@ export function getTopShavingTaxNaive(
   };
 }
 
+export function getTopShavingTaxMultiBracket(
+  income: number,
+  shaving: number
+): {
+  taxOnShaving: number;
+  amountRemaining: number;
+  rateTop: number;
+  rateUnder: number;
+} {
+  const bracket = getTopTaxBracket(income);
+  const topRate = RATES[bracket];
+  const inTopTaxBracket = amountInTopTaxBracket(income);
+
+  const rateBracketBelow = RATES[bracket ? bracket - 1 : bracket];
+
+  let shavingTop = shaving,
+    shavingLower = 0;
+
+  if (shaving > inTopTaxBracket) {
+    shavingTop = inTopTaxBracket;
+    shavingLower = shaving - inTopTaxBracket;
+  }
+
+  const taxShavingTop = shavingTop * topRate;
+  const taxShavingLower = shavingLower * rateBracketBelow;
+  const totalShavingTax = taxShavingTop + taxShavingLower;
+
+  return {
+    taxOnShaving: totalShavingTax,
+    amountRemaining: shaving - totalShavingTax,
+    rateTop: topRate,
+    rateUnder: rateBracketBelow,
+  };
+}
+
 export function getTopIncomeBracketRate(income: number) {
   const bracket = getTopTaxBracket(income);
   return RATES[bracket];
@@ -103,6 +138,15 @@ function getTopTaxBracket(income: number) {
   if (income >= 120001 && income < 180001) return 3;
   if (income >= 180001) return 4;
   return 0;
+}
+
+function amountInTopTaxBracket(income: number): number {
+  if (income < 18201) return income;
+  if (income >= 18201 && income < 45001) return income - 18201;
+  if (income >= 45001 && income < 120001) return income - 45001;
+  if (income >= 120001 && income < 180001) return income - 120001;
+  // if (income >= 180001)
+  return income - 180001;
 }
 
 //https://math.stackexchange.com/questions/1698578/compound-interest-formula-adding-annual-contributions
@@ -120,17 +164,21 @@ export function calcCompoundInterest(
   // if (P === 0) P = 1; // free dollar congrats
   i = i / 100;
   const result = (P + A / i) * Math.pow(1 + i, n) - A / i;
-  return result.toLocaleString(undefined, { minimumFractionDigits: 2 });
+  return formatCurrency(result);
 }
 
 export function debounce(callback: any, wait: number) {
   let timeoutId: any = null;
-
-  console.log("debounce");
   return (...args: any[]) => {
     window.clearTimeout(timeoutId);
     timeoutId = window.setTimeout(() => {
       callback.apply(null, args);
     }, wait);
   };
+}
+
+export function formatCurrency(amount: number): string {
+  return `$${amount.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+  })}`;
 }
